@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 01.03.2023 14:22:37
+// Create Date: 18.03.2023 17:45:42
 // Design Name: 
-// Module Name: clock_20kHz
+// Module Name: individual_b
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,11 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module clock_20kHz(input CLOCK, output reg SLOW_CLOCK = 0);
-    reg[31:0] COUNT = 0;
+module individual_b(
 
-    always @ (posedge CLOCK) begin
-        COUNT <= (COUNT == 2499) ? 0 : COUNT + 1;
-        SLOW_CLOCK <= (COUNT == 0) ? ~SLOW_CLOCK : SLOW_CLOCK;
-    end
+    );
 endmodule

@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 01.03.2023 14:24:13
+// Create Date: 18.03.2023 17:46:08
 // Design Name: 
-// Module Name: sim20kHzclock
+// Module Name: group_g
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,16 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module sim20kHzclock();
-    reg CLOCK;
-    wire SLOW_CLOCK;
-    
-    initial begin
-        CLOCK = 0;
-    end
-    
-    clock_divider clk_20kHz(CLOCK, 20000, SLOW_CLOCK);
-    always begin
-        #5 CLOCK = ~CLOCK;
-    end
+module group_g(
+
+    );
 endmodule
