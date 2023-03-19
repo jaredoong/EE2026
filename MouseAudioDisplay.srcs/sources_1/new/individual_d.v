@@ -22,12 +22,9 @@
 
 module individual_d(
     input [15:0] sw,
-    input [4:0] curr_task,
     input [12:0] pixel_index,
     output reg [15:0] pixel_data = 0
     );
-
-    localparam task_D = 4'b0011;
 
     localparam GREEN = 16'b00000_111111_00000;
     localparam WHITE = 16'b11111_111111_11111;
@@ -35,7 +32,6 @@ module individual_d(
 
     wire [6:0] x_pos;
     wire [5:0] y_pos;
-    wire color_pixel;
 
     reg showGreenBorder = 0;
 
@@ -69,42 +65,40 @@ module individual_d(
     end
 
     always @ (*) begin
-        if (curr_task == task_D) begin
-            // Individual task D
-            if (showGreenBorder == 1 && greenBorder) begin
-                pixel_data <= GREEN;
-            end
+        // Individual task D
+        if (showGreenBorder == 1 && greenBorder) begin
+            pixel_data <= GREEN;
+        end
 
-            else if (sw[9] == 1) begin
-                pixel_data <= (topLeft9) ? WHITE : BLACK;
-            end
-            else if (sw[8] == 1) begin
-                pixel_data <= (topLeft8) ? WHITE : BLACK;
-            end
-            else if (sw[7] == 1) begin
-                pixel_data <= (topLeft7) ? WHITE : BLACK;
-            end
-            else if (sw[6] == 1) begin
-                pixel_data <= (topLeft6) ? WHITE : BLACK;
-            end
-            else if (sw[5] == 1) begin
-                pixel_data <= (topLeft5) ? WHITE : BLACK;
-            end
-            else if (sw[4] == 1) begin
-                pixel_data <= (topLeft4) ? WHITE : BLACK;
-            end
-            else if (sw[3] == 1) begin
-                pixel_data <= (topLeft3) ? WHITE : BLACK;
-            end
-            else if (sw[2] == 1) begin
-                pixel_data <= (topLeft2) ? WHITE : BLACK;
-            end
-            else if (sw[1] == 1) begin
-                pixel_data <= (topLeft1) ? WHITE : BLACK;
-            end
-            else begin
-                pixel_data <= (topLeft0) ? WHITE : BLACK;
-            end
+        else if (sw[9] == 1) begin
+            pixel_data <= (topLeft9) ? WHITE : BLACK;
+        end
+        else if (sw[8] == 1) begin
+            pixel_data <= (topLeft8) ? WHITE : BLACK;
+        end
+        else if (sw[7] == 1) begin
+            pixel_data <= (topLeft7) ? WHITE : BLACK;
+        end
+        else if (sw[6] == 1) begin
+            pixel_data <= (topLeft6) ? WHITE : BLACK;
+        end
+        else if (sw[5] == 1) begin
+            pixel_data <= (topLeft5) ? WHITE : BLACK;
+        end
+        else if (sw[4] == 1) begin
+            pixel_data <= (topLeft4) ? WHITE : BLACK;
+        end
+        else if (sw[3] == 1) begin
+            pixel_data <= (topLeft3) ? WHITE : BLACK;
+        end
+        else if (sw[2] == 1) begin
+            pixel_data <= (topLeft2) ? WHITE : BLACK;
+        end
+        else if (sw[1] == 1) begin
+            pixel_data <= (topLeft1) ? WHITE : BLACK;
+        end
+        else begin
+            pixel_data <= (topLeft0) ? WHITE : BLACK;
         end
     end
 
