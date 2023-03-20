@@ -21,7 +21,8 @@
 
 
 module group_g(
-    input clk,
+    input clk_1kHz,
+    input clk_190Hz,
     input [15:0] sw,
     input [12:0] pixel_index,
     input left_click,
@@ -37,6 +38,7 @@ module group_g(
     output reg [3:0] an = 4'b1111,
     output reg [6:0] seg = 7'b1111111,
     output reg dp = 1'b1,
+    output reg [11:0] audio_out = 12'b0000_0000_0000,
     output reg [3:0] valid_number = 4'b0000
     );
 
@@ -166,7 +168,9 @@ module group_g(
 
     assign topLeftOutline = (((x_pos >= 14 && x_pos <= 46) && y_pos == 3) || (x_pos == 14 && y_pos == 4) || (x_pos == 19 && y_pos == 4) || (x_pos == 41 && y_pos == 4) || (x_pos == 46 && y_pos == 4) || (x_pos == 14 && y_pos == 5) || (x_pos == 19 && y_pos == 5) || (x_pos == 41 && y_pos == 5) || (x_pos == 46 && y_pos == 5) || (x_pos == 14 && y_pos == 6) || (x_pos == 19 && y_pos == 6) || (x_pos == 41 && y_pos == 6) || (x_pos == 46 && y_pos == 6) || (x_pos == 14 && y_pos == 7) || (x_pos == 19 && y_pos == 7) || (x_pos == 41 && y_pos == 7) || (x_pos == 46 && y_pos == 7) || ((x_pos >= 14 && x_pos <= 46) && y_pos == 8) || (x_pos == 14 && y_pos == 9) || (x_pos == 19 && y_pos == 9) || (x_pos == 41 && y_pos == 9) || (x_pos == 46 && y_pos == 9) || (x_pos == 14 && y_pos == 10) || (x_pos == 19 && y_pos == 10) || (x_pos == 41 && y_pos == 10) || (x_pos == 46 && y_pos == 10) || (x_pos == 14 && y_pos == 11) || (x_pos == 19 && y_pos == 11) || (x_pos == 41 && y_pos == 11) || (x_pos == 46 && y_pos == 11) || (x_pos == 14 && y_pos == 12) || (x_pos == 19 && y_pos == 12) || (x_pos == 41 && y_pos == 12) || (x_pos == 46 && y_pos == 12) || (x_pos == 14 && y_pos == 13) || (x_pos == 19 && y_pos == 13) || (x_pos == 41 && y_pos == 13) || (x_pos == 46 && y_pos == 13) || (x_pos == 14 && y_pos == 14) || (x_pos == 19 && y_pos == 14) || (x_pos == 41 && y_pos == 14) || (x_pos == 46 && y_pos == 14) || (x_pos == 14 && y_pos == 15) || (x_pos == 19 && y_pos == 15) || (x_pos == 41 && y_pos == 15) || (x_pos == 46 && y_pos == 15) || (x_pos == 14 && y_pos == 16) || (x_pos == 19 && y_pos == 16) || (x_pos == 41 && y_pos == 16) || (x_pos == 46 && y_pos == 16) || (x_pos == 14 && y_pos == 17) || (x_pos == 19 && y_pos == 17) || (x_pos == 41 && y_pos == 17) || (x_pos == 46 && y_pos == 17) || (x_pos == 14 && y_pos == 18) || (x_pos == 19 && y_pos == 18) || (x_pos == 41 && y_pos == 18) || (x_pos == 46 && y_pos == 18) || (x_pos == 14 && y_pos == 19) || (x_pos == 19 && y_pos == 19) || (x_pos == 41 && y_pos == 19) || (x_pos == 46 && y_pos == 19) || (x_pos == 14 && y_pos == 20) || (x_pos == 19 && y_pos == 20) || (x_pos == 41 && y_pos == 20) || (x_pos == 46 && y_pos == 20) || (x_pos == 14 && y_pos == 21) || (x_pos == 19 && y_pos == 21) || (x_pos == 41 && y_pos == 21) || (x_pos == 46 && y_pos == 21) || ((x_pos >= 14 && x_pos <= 46) && y_pos == 22) || (x_pos == 14 && y_pos == 23) || (x_pos == 19 && y_pos == 23) || (x_pos == 41 && y_pos == 23) || (x_pos == 46 && y_pos == 23) || (x_pos == 14 && y_pos == 24) || (x_pos == 19 && y_pos == 24) || (x_pos == 41 && y_pos == 24) || (x_pos == 46 && y_pos == 24) || (x_pos == 14 && y_pos == 25) || (x_pos == 19 && y_pos == 25) || (x_pos == 41 && y_pos == 25) || (x_pos == 46 && y_pos == 25) || (x_pos == 14 && y_pos == 26) || (x_pos == 19 && y_pos == 26) || (x_pos == 41 && y_pos == 26) || (x_pos == 46 && y_pos == 26) || ((x_pos >= 14 && x_pos <= 46) && y_pos == 27) || (x_pos == 14 && y_pos == 28) || (x_pos == 19 && y_pos == 28) || (x_pos == 41 && y_pos == 28) || (x_pos == 46 && y_pos == 28) || (x_pos == 14 && y_pos == 29) || (x_pos == 19 && y_pos == 29) || (x_pos == 41 && y_pos == 29) || (x_pos == 46 && y_pos == 29) || (x_pos == 14 && y_pos == 30) || (x_pos == 19 && y_pos == 30) || (x_pos == 41 && y_pos == 30) || (x_pos == 46 && y_pos == 30) || (x_pos == 14 && y_pos == 31) || (x_pos == 19 && y_pos == 31) || (x_pos == 41 && y_pos == 31) || (x_pos == 46 && y_pos == 31) || (x_pos == 14 && y_pos == 32) || (x_pos == 19 && y_pos == 32) || (x_pos == 41 && y_pos == 32) || (x_pos == 46 && y_pos == 32) || (x_pos == 14 && y_pos == 33) || (x_pos == 19 && y_pos == 33) || (x_pos == 41 && y_pos == 33) || (x_pos == 46 && y_pos == 33) || (x_pos == 14 && y_pos == 34) || (x_pos == 19 && y_pos == 34) || (x_pos == 41 && y_pos == 34) || (x_pos == 46 && y_pos == 34) || (x_pos == 14 && y_pos == 35) || (x_pos == 19 && y_pos == 35) || (x_pos == 41 && y_pos == 35) || (x_pos == 46 && y_pos == 35) || (x_pos == 14 && y_pos == 36) || (x_pos == 19 && y_pos == 36) || (x_pos == 41 && y_pos == 36) || (x_pos == 46 && y_pos == 36) || (x_pos == 14 && y_pos == 37) || (x_pos == 19 && y_pos == 37) || (x_pos == 41 && y_pos == 37) || (x_pos == 46 && y_pos == 37) || (x_pos == 14 && y_pos == 38) || (x_pos == 19 && y_pos == 38) || (x_pos == 41 && y_pos == 38) || (x_pos == 46 && y_pos == 38) || (x_pos == 14 && y_pos == 39) || (x_pos == 19 && y_pos == 39) || (x_pos == 41 && y_pos == 39) || (x_pos == 46 && y_pos == 39) || (x_pos == 14 && y_pos == 40) || (x_pos == 19 && y_pos == 40) || (x_pos == 41 && y_pos == 40) || (x_pos == 46 && y_pos == 40) || (x_pos == 14 && y_pos == 41) || (x_pos == 19 && y_pos == 41) || (x_pos == 41 && y_pos == 41) || (x_pos == 46 && y_pos == 41) || ((x_pos >= 14 && x_pos <= 46) && y_pos == 42) || (x_pos == 14 && y_pos == 43) || (x_pos == 19 && y_pos == 43) || (x_pos == 41 && y_pos == 43) || (x_pos == 46 && y_pos == 43) || (x_pos == 14 && y_pos == 44) || (x_pos == 19 && y_pos == 44) || (x_pos == 41 && y_pos == 44) || (x_pos == 46 && y_pos == 44) || (x_pos == 14 && y_pos == 45) || (x_pos == 19 && y_pos == 45) || (x_pos == 41 && y_pos == 45) || (x_pos == 46 && y_pos == 45) || (x_pos == 14 && y_pos == 46) || (x_pos == 19 && y_pos == 46) || (x_pos == 41 && y_pos == 46) || (x_pos == 46 && y_pos == 46) || ((x_pos >= 14 && x_pos <= 46) && y_pos == 47));
 
-    // Controll segment fill / unfill
+    // Mouse portion-------------------------------------------
+
+    // Control segment fill / unfill
     always @ (*) begin
         if ((sw[15] == 0) && (canReset == 1)) begin
             seg_a_filled <= 0;
@@ -226,8 +230,10 @@ module group_g(
         end
     end
 
+    // Anode portion--------------------------------------------
+
     // Refreshing the 4-digit 7-segment display on Basys 3 FPGA 
-    always @ (posedge clk) begin 
+    always @ (posedge clk_1kHz) begin 
         if (curr_an == an_pos0) next_an <= an_pos1;
         else if (curr_an == an_pos1) next_an <= an_pos2;
         else if (curr_an == an_pos2) next_an <= an_pos3;
@@ -321,31 +327,87 @@ module group_g(
         end
     end
 
-    // For controlling display of green border
-    always @ (*) begin
-        showGreenBorder = sw[0] ? 1 : 0;
-    end
+    // LED portion--------------------------------------------
 
     // For controlling whether LED15 lights up or not
     always @ (*) begin
-        if (valid1) valid_number = 4'b0001;
-        else if (valid2) valid_number = 4'b0010;
-        else if (valid3) valid_number = 4'b0011;
-        else if (valid4) valid_number = 4'b0100;
-        else if (valid5) valid_number = 4'b0101;
-        else if (valid6) valid_number = 4'b0110;
-        else if (valid7) valid_number = 4'b0111;
-        else if (valid8) valid_number = 4'b1000;
-        else if (valid9) valid_number = 4'b1001;
-        else if (valid0) valid_number = 4'b1010;
-        else valid_number = 4'b0000;
+        if (valid1) begin
+            valid_number = 4'b0001;
+            audio_threshold = 200;
+        end
+        else if (valid2) begin
+            valid_number = 4'b0010;
+            audio_threshold = 300;
+        end
+        else if (valid3) begin
+            valid_number = 4'b0011;
+            audio_threshold = 400;
+        end
+        else if (valid4) begin
+            valid_number = 4'b0100;
+            audio_threshold = 500;
+        end
+        else if (valid5) begin
+            valid_number = 4'b0101;
+            audio_threshold = 600;
+        end
+        else if (valid6) begin
+            valid_number = 4'b0110;
+            audio_threshold = 700;
+        end
+        else if (valid7) begin
+            valid_number = 4'b0111;
+            audio_threshold = 800;
+        end
+        else if (valid8) begin
+            valid_number = 4'b1000;
+            audio_threshold = 900;
+        end
+        else if (valid9) begin
+            valid_number = 4'b1001;
+            audio_threshold = 1000;
+        end
+        else if (valid0) begin
+            valid_number = 4'b1010;
+            audio_threshold = 100;
+        end
+        else begin
+            valid_number = 4'b0000;
+            audio_threshold = 10'b1111111111;
+        end
+    end
 
-        if (sw[15] && (valid_number != 4'b0000)) begin
-            canReset = 1;
+    // Audio output portion--------------------------------------------
+    reg [9:0] counter = 0;
+    reg [9:0] audio_threshold;
+
+    always @ (posedge clk_1kHz) begin
+        if (counter == 0) begin
+            if (valid_number != 4'b000) begin
+                counter <= counter + 1;
+            end
+        end 
+        else if (counter < audio_threshold) begin
+            counter <= counter + 1;
+            audio_out[10:0] <= 11'b11111111111;
+            audio_out[11] <= clk_190Hz;
         end
-        else if (valid_number == 4'b0000) begin
-            canReset = 0;
+
+        if (counter == audio_threshold) begin
+            audio_out [11:0] <= 12'b0000_0000_0000;
+            canReset <= 1;
+            if (topLeftOutline) begin
+                counter <= 0;
+                canReset <= 0;
+            end
         end
+    end
+
+    //---------------- OLED display portion------------------------------
+
+    // For controlling display of green border
+    always @ (*) begin
+        showGreenBorder = sw[0] ? 1 : 0;
     end
 
     // For controlling OLED display

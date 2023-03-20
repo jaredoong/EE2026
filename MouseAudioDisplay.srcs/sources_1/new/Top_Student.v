@@ -77,6 +77,7 @@ module Top_Student (
     wire [6:0] task_G_seg;
     wire [3:0] valid_number;
     wire [3:0] task_G_cursor_size;
+    wire [11:0] task_G_audio_out;
     wire task_G_dp;
 
     // Startup menu display
@@ -161,7 +162,8 @@ module Top_Student (
 
     // Group task
     group_g group_task_g(
-        .clk(clk_1kHz),
+        .clk_1kHz(clk_1kHz),
+        .clk_190Hz(clk_190Hz),
         .sw(sw),
         .pixel_index(pixel_index),
         .left_click(left_click_debounce),
@@ -177,6 +179,7 @@ module Top_Student (
         .an(task_G_an),
         .seg(task_G_seg),
         .dp(task_G_dp),
+        .audio_out(task_G_audio_out),
         .valid_number(valid_number)
     );
  
@@ -331,6 +334,7 @@ module Top_Student (
         // Control audio output based on current task
         case (curr_task)
             task_B : audio_out = task_B_audio_out;
+            task_G : audio_out = task_G_audio_out;
         default : audio_out = 0;
         endcase
 
