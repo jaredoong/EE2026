@@ -91,7 +91,7 @@ module group_g(
     wire valid8;
     wire valid9;
 
-    reg reset = 0;
+    reg canReset = 0;
     reg [1:0] curr_an = 2'b00;
     reg [1:0] next_an = 2'b00;
     reg [3:0] an_display = 4'b1111;
@@ -168,6 +168,23 @@ module group_g(
 
     // Controll segment fill / unfill
     always @ (*) begin
+        if ((sw[15] == 0) && (canReset == 1)) begin
+            seg_a_filled <= 0;
+            seg_b_filled <= 0;
+            seg_c_filled <= 0;
+            seg_d_filled <= 0;
+            seg_e_filled <= 0;
+            seg_f_filled <= 0;
+            seg_g_filled <= 0;
+            topLeftBox_filled <= 0;
+            midLeftBox_filled <= 0;
+            botLeftBox_filled <= 0;
+            topRightBox_filled <= 0;
+            midRightBox_filled <= 0;
+            botRightBox_filled <= 0;
+        end
+
+        else
         if (seg_a && mouse_pos) begin
             seg_a_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_a_filled;
         end
@@ -322,6 +339,13 @@ module group_g(
         else if (valid9) valid_number = 4'b1001;
         else if (valid0) valid_number = 4'b1010;
         else valid_number = 4'b0000;
+
+        if (sw[15] && (valid_number != 4'b0000)) begin
+            canReset = 1;
+        end
+        else if (valid_number == 4'b0000) begin
+            canReset = 0;
+        end
     end
 
     // For controlling OLED display
@@ -371,7 +395,6 @@ module group_g(
         else if (botRightBox) begin
             pixel_data <= (botRightBox_filled) ? WHITE : BLACK;
         end
-
         else begin
             pixel_data <= (topLeftOutline) ? WHITE : BLACK;
         end
