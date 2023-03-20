@@ -40,6 +40,7 @@ module Top_Student (
     localparam menu = 4'b1111;
 
     // Clk signals
+    wire clk_1kHz;
     wire clk_20kHz;
     wire clk_190Hz;
     wire clk_380Hz;
@@ -74,7 +75,7 @@ module Top_Student (
     wire [11:0] task_G_led;
     wire [3:0] task_G_an;
     wire [6:0] task_G_seg;
-    wire valid_number;
+    wire [3:0] valid_number;
     wire [3:0] task_G_cursor_size;
     wire task_G_dp;
 
@@ -107,6 +108,7 @@ module Top_Student (
     clock_divider clk20kHz(basys3_clock,20_000, clk_20kHz);
     clock_divider clk190Hz(basys3_clock,190, clk_190Hz);
     clock_divider clk380Hz(basys3_clock,380, clk_380Hz);
+    clock_divider clk_1kHz(basys3_clock,1_000, clk_1kHz);
     clock_divider clk6p25m(basys3_clock,6_250_000, clock_6p25mhz);
 
     // Stage selector
@@ -159,12 +161,16 @@ module Top_Student (
 
     // Group task
     group_g group_task_g(
+        .clk(clk_1kHz),
         .sw(sw),
         .pixel_index(pixel_index),
         .left_click(left_click_debounce),
         .right_click(right_click_debounce),
         .diff_x(diff_x),
         .diff_y(diff_y),
+        .task_A_an(task_A_an),
+        .task_A_seg(task_A_seg),
+        .task_A_led(task_A_led),
         .cursor_size(task_G_cursor_size),
         .pixel_data(task_G_pixel_data),
         .led(task_G_led),
@@ -288,7 +294,7 @@ module Top_Student (
                         led[12:0] = 13'b0000000000000;
                     end
             task_G : begin
-                        led[15] = valid_number;
+                        led[15] = (valid_number == 4'b0000) ? 0 : (sw[15]) ? 1 : 0;
                         led[11:0] = task_A_led;
                         led[14:12] = 3'b000;
 

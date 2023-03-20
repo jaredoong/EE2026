@@ -21,19 +21,23 @@
 
 
 module group_g(
+    input clk,
     input [15:0] sw,
     input [12:0] pixel_index,
     input left_click,
     input right_click,
     input [6:0] diff_x,
     input [6:0] diff_y,
+    input task_A_an,
+    input [6:0] task_A_seg,
+    input [11:0] task_A_led,
     output reg [3:0] cursor_size = 1,
     output reg [15:0] pixel_data = 0,
     output reg [11:0] led = 12'b000000000000,
     output reg [3:0] an = 4'b1111,
     output reg [6:0] seg = 7'b1111111,
     output reg dp = 1'b1,
-    output reg valid_number = 0
+    output reg [3:0] valid_number = 4'b0000
     );
 
     localparam RED = 16'hF800;
@@ -41,10 +45,56 @@ module group_g(
     localparam WHITE = 16'hFFFF;
     localparam BLACK = 16'h0000;
 
+    localparam an_pos0 = 2'b00;
+    localparam an_pos1 = 2'b01;
+    localparam an_pos2 = 2'b10;
+    localparam an_pos3 = 2'b11;
+
+    localparam seg_one_display = 7'b1111001;
+    localparam seg_two_display = 7'b0100100;
+    localparam seg_three_display = 7'b0110000;
+    localparam seg_four_display = 7'b0011001;
+    localparam seg_five_display = 7'b0010010;
+    localparam seg_six_display = 7'b0000010;
+    localparam seg_seven_display = 7'b1111000;
+    localparam seg_eight_display = 7'b0000000;
+    localparam seg_nine_display = 7'b0010000;
+    localparam seg_zero_display = 7'b1000000;
+
     localparam cursor_color = RED;
 
     wire [6:0] x_pos;
     wire [5:0] y_pos;
+    wire [6:0] mouse_pos;
+    wire [6:0] greenBorder;
+    wire [6:0] seg_a;
+    wire [6:0] seg_b;
+    wire [6:0] seg_c;
+    wire [6:0] seg_d;
+    wire [6:0] seg_e;
+    wire [6:0] seg_f;
+    wire [6:0] seg_g;
+    wire [6:0] topLeftBox;
+    wire [6:0] midLeftBox;
+    wire [6:0] botLeftBox;
+    wire [6:0] topRightBox;
+    wire [6:0] midRightBox;
+    wire [6:0] botRightBox;
+    wire valid0;
+    wire valid1;
+    wire valid2;
+    wire valid3;
+    wire valid4;
+    wire valid5;
+    wire valid6;
+    wire valid7;
+    wire valid8;
+    wire valid9;
+
+    reg reset = 0;
+    reg [1:0] curr_an = 2'b00;
+    reg [1:0] next_an = 2'b00;
+    reg [3:0] an_display = 4'b1111;
 
     reg showGreenBorder = 0;
     reg seg_a_filled = 0;
@@ -159,14 +209,122 @@ module group_g(
         end
     end
 
+    // Refreshing the 4-digit 7-segment display on Basys 3 FPGA 
+    always @ (posedge clk) begin 
+        if (curr_an == an_pos0) next_an <= an_pos1;
+        else if (curr_an == an_pos1) next_an <= an_pos2;
+        else if (curr_an == an_pos2) next_an <= an_pos3;
+        else if (curr_an == an_pos3) next_an <= an_pos0;
+    end
+
+    always @ (*) begin
+        an <= an_display;
+        curr_an <= next_an;
+    end
+
+    // Control dp of 7-seg
+    always @ (*) begin
+        if ((curr_an == an_pos3) && (valid_number != 4'b0000)) begin
+            dp = 0;
+        end
+        else begin
+            dp = 1;
+        end
+    end
+
+    // Control output of an and 7-seg
+    always @ (*) begin
+        if (curr_an == an_pos0) begin
+            seg = task_A_seg;
+            an_display = 4'b1110;
+        end
+        else if (curr_an == an_pos1) begin
+            seg = 7'b1111111;
+            an_display = 4'b1111;
+        end
+        else if (curr_an == an_pos2) begin
+            if (valid_number == 4'b0000) begin
+                seg = 7'b1111111;
+                an_display = 4'b1111;
+            end
+            else if (valid_number == 4'b0001) begin
+                seg = seg_two_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b0010) begin
+                seg = seg_three_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b0011) begin
+                seg = seg_four_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b0100) begin
+                seg = seg_five_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b0101) begin
+                seg = seg_six_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b0110) begin
+                seg = seg_seven_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b0111) begin
+                seg = seg_eight_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b1000) begin
+                seg = seg_nine_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b1001) begin
+                seg = seg_zero_display;
+                an_display = 4'b1011;
+            end
+            else if (valid_number == 4'b1010) begin
+                seg = seg_one_display;
+                an_display = 4'b1011;
+            end
+        end
+        else if (curr_an == an_pos3) begin
+            if (valid_number == 4'b1001) begin
+                seg = seg_one_display;
+                an_display = 4'b0111;
+            end
+            else if (valid_number == 4'b0000)begin
+                seg = 7'b1111111;
+                an_display = 4'b1111;
+            end
+            else begin
+                seg = seg_zero_display;
+                an_display = 4'b0111;
+            end
+        end
+    end
+
+    // For controlling display of green border
     always @ (*) begin
         showGreenBorder = sw[0] ? 1 : 0;
     end
 
+    // For controlling whether LED15 lights up or not
     always @ (*) begin
-        valid_number = valid1 || valid2 || valid3 || valid4 || valid5 || valid6 || valid7 || valid8 || valid9 || valid0;
+        if (valid1) valid_number = 4'b0001;
+        else if (valid2) valid_number = 4'b0010;
+        else if (valid3) valid_number = 4'b0011;
+        else if (valid4) valid_number = 4'b0100;
+        else if (valid5) valid_number = 4'b0101;
+        else if (valid6) valid_number = 4'b0110;
+        else if (valid7) valid_number = 4'b0111;
+        else if (valid8) valid_number = 4'b1000;
+        else if (valid9) valid_number = 4'b1001;
+        else if (valid0) valid_number = 4'b1010;
+        else valid_number = 4'b0000;
     end
 
+    // For controlling OLED display
     always @ (*) begin
         if (mouse_pos) begin
             pixel_data <= cursor_color;
