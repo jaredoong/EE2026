@@ -64,6 +64,8 @@ module Top_Student (
     wire [11:0] task_B_audio_out;
 
     // Individual C - Mouse control
+    wire task_C_left_click;
+    wire task_C_right_click;
     wire [3:0] task_C_cursor_size;
     wire [15:0] task_C_pixel_data;
     
@@ -76,12 +78,15 @@ module Top_Student (
     wire [3:0] task_G_an;
     wire [6:0] task_G_seg;
     wire [3:0] valid_number;
+    wire task_G_left_click;
+    wire task_G_right_click;
     wire [3:0] task_G_cursor_size;
     wire [11:0] task_G_audio_out;
     wire task_G_dp;
 
     // Startup menu display
     wire [15:0] startup_menu_pixel_data;
+    wire [3:0] menu_cursor_size;
 
     // Common Mouse control
     wire[11:0] mouse_x, mouse_y;
@@ -112,9 +117,6 @@ module Top_Student (
     clock_divider clk_1kHz(basys3_clock,1_000, clk_1kHz);
     clock_divider clk6p25m(basys3_clock,6_250_000, clock_6p25mhz);
 
-    // Stage selector
-    stage_selector stage_select(sw,stage);
-
     // Debouncer for btns
     debouncer btnC_debouncer(basys3_clock, btnC, btnC_debounce);
     debouncer btnU_debouncer(basys3_clock, btnU, btnU_debounce);
@@ -123,6 +125,12 @@ module Top_Student (
     debouncer btnR_debouncer(basys3_clock, btnR, btnR_debounce);
     debouncer left_click_debouncer(basys3_clock, left_click, left_click_debounce);
     debouncer right_click_debouncer(basys3_clock, right_click, right_click_debounce);
+
+    // For controlling mouse inputs
+    assign task_G_left_click = (curr_task == task_G) ? left_click_debounce : 0;
+    assign task_G_right_click = (curr_task == task_G) ? right_click_debounce : 0;
+    assign menu_left_click = (curr_task == menu) ? left_click_debounce : 0;
+    assign menu_right_click = (curr_task == menu) ? right_click_debounce : 0;
 
     // Individual A - Audio input
     individual_a audio_input_a(
@@ -162,14 +170,17 @@ module Top_Student (
 
     // Group task
     group_g group_task_g(
+        .basys3_clock(basys3_clock),
         .clk_1kHz(clk_1kHz),
         .clk_190Hz(clk_190Hz),
         .sw(sw),
         .pixel_index(pixel_index),
-        .left_click(left_click_debounce),
-        .right_click(right_click_debounce),
+        .left_click(task_G_left_click),
+        .right_click(task_G_right_click),
         .diff_x(diff_x),
         .diff_y(diff_y),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
         .task_A_an(task_A_an),
         .task_A_seg(task_A_seg),
         .task_A_led(task_A_led),
@@ -186,8 +197,17 @@ module Top_Student (
     // Startup menu display
     start_menu startup_menu_display(
         .basys3_clock(basys3_clock),
+        .sw(sw),
         .pixel_index(pixel_index),
-        .pixel_data(startup_menu_pixel_data)
+        .left_click(menu_left_click),
+        .right_click(menu_right_click),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_size(menu_cursor_size),
+        .pixel_data(startup_menu_pixel_data),
+        .stage(stage)
     );
 
     // Common OLED display    
@@ -340,6 +360,7 @@ module Top_Student (
 
         // Control cursor size based on current task
         case (curr_task)
+            menu : cursor_size = menu_cursor_size;
             task_C : cursor_size = task_C_cursor_size;
             task_G : cursor_size = task_G_cursor_size;
         endcase

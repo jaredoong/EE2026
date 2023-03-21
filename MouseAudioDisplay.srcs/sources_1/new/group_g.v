@@ -21,6 +21,7 @@
 
 
 module group_g(
+    input basys3_clock,
     input clk_1kHz,
     input clk_190Hz,
     input [15:0] sw,
@@ -29,6 +30,8 @@ module group_g(
     input right_click,
     input [6:0] diff_x,
     input [6:0] diff_y,
+    input [6:0] cursor_x,
+    input [6:0] cursor_y,
     input task_A_an,
     input [6:0] task_A_seg,
     input [11:0] task_A_led,
@@ -134,6 +137,20 @@ module group_g(
 
     assign seg_g = ((x_pos >= 20 && x_pos <= 40) && (y_pos >= 23 && y_pos <= 26));
 
+    assign seg_a_mouse = seg_a && ((cursor_x >= 20 && cursor_x <= 40) && (cursor_y >= 4 && cursor_y <= 7));
+
+    assign seg_b_mouse = seg_b && ((cursor_x >= 42 && cursor_x <= 45) && (cursor_y >= 9 && cursor_y <= 21));
+
+    assign seg_c_mouse = seg_c && ((cursor_x >= 42 && cursor_x <= 45) && (cursor_y >= 28 && cursor_y <= 41));
+
+    assign seg_d_mouse = seg_d && ((cursor_x >= 20 && cursor_x <= 40) && (cursor_y >= 43 && cursor_y <= 46));
+
+    assign seg_e_mouse = seg_e && ((cursor_x >= 15 && cursor_x <= 18) && (cursor_y >= 28 && cursor_y <= 41));
+
+    assign seg_f_mouse = seg_f && ((cursor_x >= 15 && cursor_x <= 18) && (cursor_y >= 9 && cursor_y <= 21));
+
+    assign seg_g_mouse = seg_g && ((cursor_x >= 20 && cursor_x <= 40) && (cursor_y >= 23 && cursor_y <= 26));
+
     assign topLeftBox = ((x_pos >= 15 && x_pos <= 18) && (y_pos >= 4 && y_pos <= 7));
 
     assign midLeftBox = ((x_pos >= 15 && x_pos <= 18) && (y_pos >= 23 && y_pos <= 26));
@@ -145,6 +162,18 @@ module group_g(
     assign midRightBox = ((x_pos >= 42 && x_pos <= 45) && (y_pos >= 23 && y_pos <= 26));
 
     assign botRightBox = ((x_pos >= 42 && x_pos <= 45) && (y_pos >= 43 && y_pos <= 46));
+
+    assign topLeftBox_mouse = topLeftBox && ((cursor_x >= 15 && cursor_x <= 18) && (cursor_y >= 4 && cursor_y <= 7));
+
+    assign midLeftBox_mouse = midLeftBox && ((cursor_x >= 15 && cursor_x <= 18) && (cursor_y >= 23 && cursor_y <= 26));
+
+    assign botLeftBox_mouse = botLeftBox && ((cursor_x >= 15 && cursor_x <= 18) && (cursor_y >= 43 && cursor_y <= 46));
+
+    assign topRightBox_mouse = topRightBox && ((cursor_x >= 42 && cursor_x <= 45) && (cursor_y >= 4 && cursor_y <= 7));
+
+    assign midRightBox_mouse = midRightBox && ((cursor_x >= 42 && cursor_x <= 45) && (cursor_y >= 23 && cursor_y <= 26));
+
+    assign botRightBox_mouse = botRightBox && ((cursor_x >= 42 && cursor_x <= 45) && (cursor_y >= 43 && cursor_y <= 46));
 
     assign valid0 = seg_a_filled && seg_b_filled && seg_c_filled && seg_d_filled && seg_e_filled && seg_f_filled && ~seg_g_filled && topLeftBox_filled && midLeftBox_filled && botLeftBox_filled && topRightBox_filled && midRightBox_filled && botRightBox_filled;
 
@@ -171,7 +200,7 @@ module group_g(
     // Mouse portion-------------------------------------------
 
     // Control segment fill / unfill
-    always @ (*) begin
+    always @ (posedge basys3_clock) begin
         if ((sw[15] == 0) && (canReset == 1)) begin
             seg_a_filled <= 0;
             seg_b_filled <= 0;
@@ -189,43 +218,43 @@ module group_g(
         end
 
         else
-        if (seg_a && mouse_pos) begin
+        if (seg_a && seg_a_mouse) begin
             seg_a_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_a_filled;
         end
-        else if (seg_b && mouse_pos) begin
+        else if (seg_b && seg_b_mouse) begin
             seg_b_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_b_filled;
         end
-        else if (seg_c && mouse_pos) begin
+        else if (seg_c && seg_c_mouse) begin
             seg_c_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_c_filled;
         end
-        else if (seg_d && mouse_pos) begin
+        else if (seg_d && seg_d_mouse) begin
             seg_d_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_d_filled;
         end
-        else if (seg_e && mouse_pos) begin
+        else if (seg_e && seg_e_mouse) begin
             seg_e_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_e_filled;
         end
-        else if (seg_f && mouse_pos) begin
+        else if (seg_f && seg_f_mouse) begin
             seg_f_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_f_filled;
         end
-        else if (seg_g && mouse_pos) begin
+        else if (seg_g && seg_g_mouse) begin
             seg_g_filled <= (left_click) ? 1 : (right_click) ? 0 : seg_g_filled;
         end
-        else if (topLeftBox && mouse_pos) begin
+        else if (topLeftBox && topLeftBox_mouse) begin
             topLeftBox_filled <= (left_click) ? 1 : (right_click) ? 0 : topLeftBox_filled;
         end
-        else if (midLeftBox && mouse_pos) begin
+        else if (midLeftBox && midLeftBox_mouse) begin
             midLeftBox_filled <= (left_click) ? 1 : (right_click) ? 0 : midLeftBox_filled;
         end
-        else if (botLeftBox && mouse_pos) begin
+        else if (botLeftBox && botLeftBox_mouse) begin
             botLeftBox_filled <= (left_click) ? 1 : (right_click) ? 0 : botLeftBox_filled;
         end
-        else if (topRightBox && mouse_pos) begin
+        else if (topRightBox && topRightBox_mouse) begin
             topRightBox_filled <= (left_click) ? 1 : (right_click) ? 0 : topRightBox_filled;
         end
-        else if (midRightBox && mouse_pos) begin
+        else if (midRightBox && midRightBox_mouse) begin
             midRightBox_filled <= (left_click) ? 1 : (right_click) ? 0 : midRightBox_filled;
         end
-        else if (botRightBox && mouse_pos) begin
+        else if (botRightBox && botRightBox_mouse) begin
             botRightBox_filled <= (left_click) ? 1 : (right_click) ? 0 : botRightBox_filled;
         end
     end
@@ -413,52 +442,52 @@ module group_g(
     // For controlling OLED display
     always @ (*) begin
         if (mouse_pos) begin
-            pixel_data <= cursor_color;
+            pixel_data = cursor_color;
         end
         else if (showGreenBorder == 1 && greenBorder) begin
-            pixel_data <= GREEN;
+            pixel_data = GREEN;
         end
         else if (seg_a) begin
-            pixel_data <= (seg_a_filled) ? WHITE : BLACK;
+            pixel_data = (seg_a_filled) ? WHITE : BLACK;
         end
         else if (seg_b) begin
-            pixel_data <= (seg_b_filled) ? WHITE : BLACK;
+            pixel_data = (seg_b_filled) ? WHITE : BLACK;
         end
         else if (seg_c) begin
-            pixel_data <= (seg_c_filled) ? WHITE : BLACK;
+            pixel_data = (seg_c_filled) ? WHITE : BLACK;
         end
         else if (seg_d) begin
-            pixel_data <= (seg_d_filled) ? WHITE : BLACK;
+            pixel_data = (seg_d_filled) ? WHITE : BLACK;
         end
         else if (seg_e) begin
-            pixel_data <= (seg_e_filled) ? WHITE : BLACK;
+            pixel_data = (seg_e_filled) ? WHITE : BLACK;
         end
         else if (seg_f) begin
-            pixel_data <= (seg_f_filled) ? WHITE : BLACK;
+            pixel_data = (seg_f_filled) ? WHITE : BLACK;
         end
         else if (seg_g) begin
-            pixel_data <= (seg_g_filled) ? WHITE : BLACK;
+            pixel_data = (seg_g_filled) ? WHITE : BLACK;
         end
         else if (topLeftBox) begin
-            pixel_data <= (topLeftBox_filled) ? WHITE : BLACK;
+            pixel_data = (topLeftBox_filled) ? WHITE : BLACK;
         end
         else if (midLeftBox) begin
-            pixel_data <= (midLeftBox_filled) ? WHITE : BLACK;
+            pixel_data = (midLeftBox_filled) ? WHITE : BLACK;
         end
         else if (botLeftBox) begin
-            pixel_data <= (botLeftBox_filled) ? WHITE : BLACK;
+            pixel_data = (botLeftBox_filled) ? WHITE : BLACK;
         end
         else if (topRightBox) begin
-            pixel_data <= (topRightBox_filled) ? WHITE : BLACK;
+            pixel_data = (topRightBox_filled) ? WHITE : BLACK;
         end
         else if (midRightBox) begin
-            pixel_data <= (midRightBox_filled) ? WHITE : BLACK;
+            pixel_data = (midRightBox_filled) ? WHITE : BLACK;
         end
         else if (botRightBox) begin
-            pixel_data <= (botRightBox_filled) ? WHITE : BLACK;
+            pixel_data = (botRightBox_filled) ? WHITE : BLACK;
         end
         else begin
-            pixel_data <= (topLeftOutline) ? WHITE : BLACK;
+            pixel_data = (topLeftOutline) ? WHITE : BLACK;
         end
     end
 endmodule
