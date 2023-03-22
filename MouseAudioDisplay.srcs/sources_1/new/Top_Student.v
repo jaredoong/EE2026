@@ -335,6 +335,7 @@ module Top_Student (
 
             task_A : begin
                 an[0] = task_A_an;
+                seg = task_A_seg;
                 an[3:1] = 3'b111;
             end
 

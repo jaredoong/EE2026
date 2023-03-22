@@ -359,50 +359,50 @@ module group_g(
     // LED portion--------------------------------------------
 
     // For controlling whether LED15 lights up or not
-    always @ (*) begin
+    always @ (posedge basys3_clock) begin
         if (valid1) begin
-            valid_number = 4'b0001;
-            audio_threshold = 200;
+            valid_number <= 4'b0001;
+            audio_threshold <= 200;
         end
         else if (valid2) begin
-            valid_number = 4'b0010;
-            audio_threshold = 300;
+            valid_number <= 4'b0010;
+            audio_threshold <= 300;
         end
         else if (valid3) begin
-            valid_number = 4'b0011;
-            audio_threshold = 400;
+            valid_number <= 4'b0011;
+            audio_threshold <= 400;
         end
         else if (valid4) begin
-            valid_number = 4'b0100;
-            audio_threshold = 500;
+            valid_number <= 4'b0100;
+            audio_threshold <= 500;
         end
         else if (valid5) begin
-            valid_number = 4'b0101;
-            audio_threshold = 600;
+            valid_number <= 4'b0101;
+            audio_threshold <= 600;
         end
         else if (valid6) begin
-            valid_number = 4'b0110;
-            audio_threshold = 700;
+            valid_number <= 4'b0110;
+            audio_threshold <= 700;
         end
         else if (valid7) begin
-            valid_number = 4'b0111;
-            audio_threshold = 800;
+            valid_number <= 4'b0111;
+            audio_threshold <= 800;
         end
         else if (valid8) begin
-            valid_number = 4'b1000;
-            audio_threshold = 900;
+            valid_number <= 4'b1000;
+            audio_threshold <= 900;
         end
         else if (valid9) begin
-            valid_number = 4'b1001;
-            audio_threshold = 1000;
+            valid_number <= 4'b1001;
+            audio_threshold <= 1000;
         end
         else if (valid0) begin
-            valid_number = 4'b1010;
-            audio_threshold = 100;
+            valid_number <= 4'b1010;
+            audio_threshold <= 100;
         end
         else begin
-            valid_number = 4'b0000;
-            audio_threshold = 10'b1111111111;
+            valid_number <= 4'b0000;
+            audio_threshold <= 0;
         end
     end
 
@@ -412,7 +412,7 @@ module group_g(
 
     always @ (posedge clk_1kHz) begin
         if (counter == 0) begin
-            if (valid_number != 4'b000) begin
+            if (valid_number != 4'b0000) begin
                 counter <= counter + 1;
             end
         end 
@@ -425,7 +425,7 @@ module group_g(
         if (counter == audio_threshold) begin
             audio_out [11:0] <= 12'b0000_0000_0000;
             canReset <= 1;
-            if (topLeftOutline) begin
+            if (topLeftOutline && (valid_number == 4'b0000)) begin
                 counter <= 0;
                 canReset <= 0;
             end
