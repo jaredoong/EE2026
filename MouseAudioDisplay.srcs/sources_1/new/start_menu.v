@@ -54,12 +54,14 @@ module start_menu(
     assign option_C_border = (x_pos >= 40 && x_pos <= 54) && (y_pos >= 4 && y_pos <= 18);
     assign option_D_border = (x_pos >= 59 && x_pos <= 73) && (y_pos >= 4 && y_pos <= 18);
     assign option_G_border = (x_pos >= 78 && x_pos <= 92) && (y_pos >= 4 && y_pos <= 18);
+    assign option_K_border = (x_pos >= 59 && x_pos <= 74) && (y_pos >= 22 && y_pos <= 35);
 
     assign option_A_hover = (option_A_border && (cursor_x >= 2 && cursor_x <= 16) && (cursor_y >= 4 && cursor_y <= 18)) ? 1: 0;
     assign option_B_hover = (option_B_border && (cursor_x >= 21 && cursor_x <= 35) && (cursor_y >= 4 && cursor_y <= 18)) ? 1: 0;
     assign option_C_hover = (option_C_border && (cursor_x >= 40 && cursor_x <= 54) && (cursor_y >= 4 && cursor_y <= 18)) ? 1: 0;
     assign option_D_hover = (option_D_border && (cursor_x >= 59 && cursor_x <= 73) && (cursor_y >= 4 && cursor_y <= 18)) ? 1: 0;
     assign option_G_hover = (option_G_border && (cursor_x >= 78 && cursor_x <= 92) && (cursor_y >= 4 && cursor_y <= 18)) ? 1: 0;
+    assign option_K_hover = (option_K_border && (cursor_x >= 59 && cursor_x <= 74) && (cursor_y >= 22 && cursor_y <= 35)) ? 1: 0;
 
     assign option_A = (((x_pos >= 2 && x_pos <= 16) && y_pos == 4) || (x_pos == 2 && y_pos == 5) || (x_pos == 16 && y_pos == 5) || (x_pos == 2 && y_pos == 6) || (x_pos == 16 && y_pos == 6) || (x_pos == 2 && y_pos == 7) || ((x_pos >= 8 && x_pos <= 10) && y_pos == 7) || (x_pos == 16 && y_pos == 7) || (x_pos == 2 && y_pos == 8) || (x_pos == 7 && y_pos == 8) || (x_pos == 11 && y_pos == 8) || (x_pos == 16 && y_pos == 8) || (x_pos == 2 && y_pos == 9) || (x_pos == 6 && y_pos == 9) || (x_pos == 12 && y_pos == 9) || (x_pos == 16 && y_pos == 9) || (x_pos == 2 && y_pos == 10) || (x_pos == 5 && y_pos == 10) || (x_pos == 13 && y_pos == 10) || (x_pos == 16 && y_pos == 10) || (x_pos == 2 && y_pos == 11) || (x_pos == 5 && y_pos == 11) || (x_pos == 13 && y_pos == 11) || (x_pos == 16 && y_pos == 11) || (x_pos == 2 && y_pos == 12) || ((x_pos >= 5 && x_pos <= 13) && y_pos == 12) || (x_pos == 16 && y_pos == 12) || (x_pos == 2 && y_pos == 13) || (x_pos == 5 && y_pos == 13) || (x_pos == 13 && y_pos == 13) || (x_pos == 16 && y_pos == 13) || (x_pos == 2 && y_pos == 14) || (x_pos == 5 && y_pos == 14) || (x_pos == 13 && y_pos == 14) || (x_pos == 16 && y_pos == 14) || (x_pos == 2 && y_pos == 15) || (x_pos == 5 && y_pos == 15) || (x_pos == 13 && y_pos == 15) || (x_pos == 16 && y_pos == 15) || (x_pos == 2 && y_pos == 16) || (x_pos == 16 && y_pos == 16) || (x_pos == 2 && y_pos == 17) || (x_pos == 16 && y_pos == 17) || ((x_pos >= 2 && x_pos <= 16) && y_pos == 18));
 
@@ -71,6 +73,8 @@ module start_menu(
 
     assign option_G = (((x_pos >= 78 && x_pos <= 92) && y_pos == 4) || (x_pos == 78 && y_pos == 5) || (x_pos == 92 && y_pos == 5) || (x_pos == 78 && y_pos == 6) || (x_pos == 92 && y_pos == 6) || (x_pos == 78 && y_pos == 7) || ((x_pos >= 81 && x_pos <= 89) && y_pos == 7) || (x_pos == 92 && y_pos == 7) || (x_pos == 78 && y_pos == 8) || (x_pos == 81 && y_pos == 8) || (x_pos == 92 && y_pos == 8) || (x_pos == 78 && y_pos == 9) || (x_pos == 81 && y_pos == 9) || (x_pos == 92 && y_pos == 9) || (x_pos == 78 && y_pos == 10) || (x_pos == 81 && y_pos == 10) || (x_pos == 92 && y_pos == 10) || (x_pos == 78 && y_pos == 11) || (x_pos == 81 && y_pos == 11) || (x_pos == 92 && y_pos == 11) || (x_pos == 78 && y_pos == 12) || (x_pos == 81 && y_pos == 12) || ((x_pos >= 87 && x_pos <= 89) && y_pos == 12) || (x_pos == 92 && y_pos == 12) || (x_pos == 78 && y_pos == 13) || (x_pos == 81 && y_pos == 13) || (x_pos == 89 && y_pos == 13) || (x_pos == 92 && y_pos == 13) || (x_pos == 78 && y_pos == 14) || (x_pos == 81 && y_pos == 14) || (x_pos == 89 && y_pos == 14) || (x_pos == 92 && y_pos == 14) || (x_pos == 78 && y_pos == 15) || ((x_pos >= 81 && x_pos <= 89) && y_pos == 15) || (x_pos == 92 && y_pos == 15) || (x_pos == 78 && y_pos == 16) || (x_pos == 92 && y_pos == 16) || (x_pos == 78 && y_pos == 17) || (x_pos == 92 && y_pos == 17) || ((x_pos >= 78 && x_pos <= 92) && y_pos == 18));
 
+    assign option_K = (((x_pos >= 59 && x_pos <= 73) && y_pos == 22) || (x_pos == 59 && y_pos == 23) || (x_pos == 73 && y_pos == 23) || (x_pos == 59 && y_pos == 24) || (x_pos == 62 && y_pos == 24) || (x_pos == 70 && y_pos == 24) || (x_pos == 73 && y_pos == 24) || (x_pos == 59 && y_pos == 25) || (x_pos == 62 && y_pos == 25) || (x_pos == 68 && y_pos == 25) || (x_pos == 73 && y_pos == 25) || (x_pos == 59 && y_pos == 26) || (x_pos == 62 && y_pos == 26) || (x_pos == 66 && y_pos == 26) || (x_pos == 73 && y_pos == 26) || (x_pos == 59 && y_pos == 27) || (x_pos == 62 && y_pos == 27) || (x_pos == 64 && y_pos == 27) || (x_pos == 73 && y_pos == 27) || (x_pos == 59 && y_pos == 28) || (x_pos == 62 && y_pos == 28) || (x_pos == 73 && y_pos == 28) || (x_pos == 59 && y_pos == 29) || (x_pos == 62 && y_pos == 29) || (x_pos == 73 && y_pos == 29) || (x_pos == 59 && y_pos == 30) || (x_pos == 62 && y_pos == 30) || (x_pos == 64 && y_pos == 30) || (x_pos == 73 && y_pos == 30) || (x_pos == 59 && y_pos == 31) || (x_pos == 62 && y_pos == 31) || (x_pos == 66 && y_pos == 31) || (x_pos == 73 && y_pos == 31) || (x_pos == 59 && y_pos == 32) || (x_pos == 62 && y_pos == 32) || (x_pos == 68 && y_pos == 32) || (x_pos == 73 && y_pos == 32) || (x_pos == 59 && y_pos == 33) || (x_pos == 62 && y_pos == 33) || (x_pos == 70 && y_pos == 33) || (x_pos == 73 && y_pos == 33) || (x_pos == 59 && y_pos == 34) || (x_pos == 73 && y_pos == 34) || ((x_pos >= 59 && x_pos <= 73) && y_pos == 35));
+    
     // Controlling of OLED display
     always @ (*) begin
         if (mouse_pos) begin
@@ -117,6 +121,14 @@ module start_menu(
                 pixel_data = BLACK;
             end
         end
+        else if (option_K_border) begin
+            if (option_K) begin
+                pixel_data = (option_K_hover) ? GREEN : WHITE;
+            end
+            else begin
+                pixel_data = BLACK;
+            end
+        end
         
         else begin
             pixel_data = BLACK;
@@ -144,6 +156,9 @@ module start_menu(
         end
         else if (option_G_hover && left_click) begin
             stage <= 4'b0101;
+        end
+        else if (option_K_hover && left_click) begin
+            stage <= 4'b0110;
         end
     end
 

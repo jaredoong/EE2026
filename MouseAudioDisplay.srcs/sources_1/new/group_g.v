@@ -411,24 +411,28 @@ module group_g(
     reg [9:0] audio_threshold;
 
     always @ (posedge clk_1kHz) begin
-        if (counter == 0) begin
+        if (valid_number == 4'b0000) begin
+            counter <= 0;
+            canReset <= 0;
+            audio_out [11:0] <= 12'b0000_0000_0000;
+        end
+
+        else if (counter == 0) begin
             if (valid_number != 4'b0000) begin
                 counter <= counter + 1;
+                audio_out[10:0] <= 11'b11111111111;
+                audio_out[11] <= clk_190Hz;
             end
         end 
-        else if (counter < audio_threshold) begin
+        else if ((counter < audio_threshold) && (audio_threshold != 4'b0000)) begin
             counter <= counter + 1;
             audio_out[10:0] <= 11'b11111111111;
             audio_out[11] <= clk_190Hz;
         end
 
-        if (counter == audio_threshold) begin
+        if ((counter == audio_threshold) && (audio_threshold != 4'b0000)) begin
             audio_out [11:0] <= 12'b0000_0000_0000;
             canReset <= 1;
-            if (topLeftOutline && (valid_number == 4'b0000)) begin
-                counter <= 0;
-                canReset <= 0;
-            end
         end
     end
 

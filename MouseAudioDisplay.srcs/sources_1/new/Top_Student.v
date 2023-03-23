@@ -37,6 +37,7 @@ module Top_Student (
     localparam task_C = 4'b0010;
     localparam task_D = 4'b0011;
     localparam task_G = 4'b0100;
+    localparam task_K = 4'b0101;
     localparam menu = 4'b1111;
 
     // Clk signals
@@ -84,6 +85,13 @@ module Top_Student (
     wire [11:0] task_G_audio_out;
     wire task_G_dp;
 
+    // OLED keyboard task
+    wire task_K_left_click;
+    wire task_K_right_click;
+    wire [3:0] task_K_cursor_size;
+    wire [15:0] task_K_pixel_data;
+
+
     // Startup menu display
     wire [15:0] startup_menu_pixel_data;
     wire [3:0] menu_cursor_size;
@@ -114,7 +122,7 @@ module Top_Student (
     clock_divider clk20kHz(basys3_clock,20_000, clk_20kHz);
     clock_divider clk190Hz(basys3_clock,190, clk_190Hz);
     clock_divider clk380Hz(basys3_clock,380, clk_380Hz);
-    clock_divider clk_1kHz(basys3_clock,1_000, clk_1kHz);
+    clock_divider clk1kHz(basys3_clock,1_000, clk_1kHz);
     clock_divider clk6p25m(basys3_clock,6_250_000, clock_6p25mhz);
 
     // Debouncer for btns
@@ -129,6 +137,8 @@ module Top_Student (
     // For controlling mouse inputs
     assign task_G_left_click = (curr_task == task_G) ? left_click_debounce : 0;
     assign task_G_right_click = (curr_task == task_G) ? right_click_debounce : 0;
+    assign task_K_left_click = (curr_task == task_K) ? left_click_debounce : 0;
+    assign task_K_right_click = (curr_task == task_K) ? right_click_debounce : 0;
     assign menu_left_click = (curr_task == menu) ? left_click_debounce : 0;
     assign menu_right_click = (curr_task == menu) ? right_click_debounce : 0;
 
@@ -192,6 +202,20 @@ module Top_Student (
         .dp(task_G_dp),
         .audio_out(task_G_audio_out),
         .valid_number(valid_number)
+    );
+
+    // Keyboard task
+    keyboard_typer keyboard_typer_k(
+        .sw(sw),
+        .pixel_index(pixel_index),
+        .left_click(task_K_left_click),
+        .right_click(task_K_right_click),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_size(task_K_cursor_size),
+        .pixel_data(task_K_pixel_data)
     );
  
     // Startup menu display
@@ -292,6 +316,7 @@ module Top_Student (
             4'b0011 : curr_task = task_C;
             4'b0100 : curr_task = task_D;
             4'b0101 : curr_task = task_G;
+            4'b0110 : curr_task = task_K;
         endcase
 
         // Control OLED display based on current task
@@ -300,6 +325,7 @@ module Top_Student (
             task_C : pixel_data = task_C_pixel_data;
             task_D : pixel_data = task_D_pixel_data;
             task_G : pixel_data = task_G_pixel_data;
+            task_K : pixel_data = task_K_pixel_data;
         default : pixel_data = BLACK;
         endcase
 
@@ -364,6 +390,7 @@ module Top_Student (
             menu : cursor_size = menu_cursor_size;
             task_C : cursor_size = task_C_cursor_size;
             task_G : cursor_size = task_G_cursor_size;
+            task_K : cursor_size = task_K_cursor_size;
         endcase
     end
 endmodule
