@@ -1569,14 +1569,66 @@ module keyboard_typer(
         end
     endfunction
 
+    function [15:0] displayX (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if (((botleft_y - curr_y)==0) || ((botleft_y - curr_y)==4)) begin
+                    displayX = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayX = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if (((botleft_y - curr_y)==1) || ((botleft_y - curr_y)==3)) begin
+                    displayX = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayX = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==2) begin
+                    displayX = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayX = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if (((botleft_y - curr_y)==1) || ((botleft_y - curr_y)==3)) begin
+                    displayX = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayX = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if (((botleft_y - curr_y)==0) || ((botleft_y - curr_y)==4)) begin
+                    displayX = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayX = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                displayX = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
     // Registering of mouse clicks
     reg canDisplay = 1;
     reg [5:0] charDisplay = CHARDISPLAY_WAITING;
 
     always @ (posedge clock) begin
         if (~left_click) begin 
-            if ((charDisplay != CHARDISPLAY_WAITING) && (charDisplay != CHARDISPLAY_NULL)) begin
-                if (charDisplay == CHARDISPLAY_BACKSPACE) begin
+            canDisplay <= 1;
+        end
+
+        if ((charDisplay != CHARDISPLAY_WAITING) && (charDisplay != CHARDISPLAY_NULL)) begin
+            case (charDisplay)
+                CHARDISPLAY_BACKSPACE: begin
                     if (char_pos > 0) begin
                         char_pos <= char_pos - 1;
                     end else begin
@@ -1584,7 +1636,19 @@ module keyboard_typer(
                     end
                 end
 
-                else begin
+                CHARDISPLAY_ENTER : begin
+                    if (char_pos <= 38) begin
+                        char_pos <= char_pos + 13;
+                    end else begin
+                        char_pos <= char_pos - 39;
+                    end
+                end
+
+                CHARDISPLAY_CLEAR : begin
+                    char_pos <= 0;
+                end
+
+                default : begin
                     if (char_pos < 51) begin
                         char_pos <= char_pos + 1;
                     end
@@ -1592,10 +1656,9 @@ module keyboard_typer(
                         char_pos <= 0;
                     end
                 end
+            endcase
 
-                canDisplay <= 1;
-                charDisplay <= CHARDISPLAY_WAITING; 
-            end
+            charDisplay <= CHARDISPLAY_WAITING; 
         end
 
         if (letter_A_hover && left_click && canDisplay) begin
@@ -1608,7 +1671,6 @@ module keyboard_typer(
         end
         else if (letter_C_hover && left_click && canDisplay) begin
             canDisplay <= 0;
-            debug_led <= 2'b11;
             charDisplay <= CHARDISPLAY_C;
         end
         else if (letter_D_hover && left_click && canDisplay) begin
@@ -1723,6 +1785,64 @@ module keyboard_typer(
 
     // Registering current position of screen display cursor
     always @ (posedge clock) begin
+        if (charDisplay == CHARDISPLAY_CLEAR) begin
+            screen_pos_display0_0 = CHARDISPLAY_WAITING;
+            screen_pos_display0_1 = CHARDISPLAY_NULL;
+            screen_pos_display0_2 = CHARDISPLAY_NULL;
+            screen_pos_display0_3 = CHARDISPLAY_NULL;
+            screen_pos_display0_4 = CHARDISPLAY_NULL;
+            screen_pos_display0_5 = CHARDISPLAY_NULL;
+            screen_pos_display0_6 = CHARDISPLAY_NULL;
+            screen_pos_display0_7 = CHARDISPLAY_NULL;
+            screen_pos_display0_8 = CHARDISPLAY_NULL;
+            screen_pos_display0_9 = CHARDISPLAY_NULL;
+            screen_pos_display0_10 = CHARDISPLAY_NULL;
+            screen_pos_display0_11 = CHARDISPLAY_NULL;
+            screen_pos_display0_12 = CHARDISPLAY_NULL;
+
+            screen_pos_display1_0 = CHARDISPLAY_NULL;
+            screen_pos_display1_1 = CHARDISPLAY_NULL;
+            screen_pos_display1_2 = CHARDISPLAY_NULL;
+            screen_pos_display1_3 = CHARDISPLAY_NULL;
+            screen_pos_display1_4 = CHARDISPLAY_NULL;
+            screen_pos_display1_5 = CHARDISPLAY_NULL;
+            screen_pos_display1_6 = CHARDISPLAY_NULL;
+            screen_pos_display1_7 = CHARDISPLAY_NULL;
+            screen_pos_display1_8 = CHARDISPLAY_NULL;
+            screen_pos_display1_9 = CHARDISPLAY_NULL;
+            screen_pos_display1_10 = CHARDISPLAY_NULL;
+            screen_pos_display1_11 = CHARDISPLAY_NULL;
+            screen_pos_display1_12 = CHARDISPLAY_NULL;
+            
+            screen_pos_display2_0 = CHARDISPLAY_NULL;
+            screen_pos_display2_1 = CHARDISPLAY_NULL;
+            screen_pos_display2_2 = CHARDISPLAY_NULL;
+            screen_pos_display2_3 = CHARDISPLAY_NULL;
+            screen_pos_display2_4 = CHARDISPLAY_NULL;
+            screen_pos_display2_5 = CHARDISPLAY_NULL;
+            screen_pos_display2_6 = CHARDISPLAY_NULL;
+            screen_pos_display2_7 = CHARDISPLAY_NULL;
+            screen_pos_display2_8 = CHARDISPLAY_NULL;
+            screen_pos_display2_9 = CHARDISPLAY_NULL;
+            screen_pos_display2_10 = CHARDISPLAY_NULL;
+            screen_pos_display2_11 = CHARDISPLAY_NULL;
+            screen_pos_display2_12 = CHARDISPLAY_NULL;
+
+            screen_pos_display3_0 = CHARDISPLAY_NULL;
+            screen_pos_display3_1 = CHARDISPLAY_NULL;
+            screen_pos_display3_2 = CHARDISPLAY_NULL;
+            screen_pos_display3_3 = CHARDISPLAY_NULL;
+            screen_pos_display3_4 = CHARDISPLAY_NULL;
+            screen_pos_display3_5 = CHARDISPLAY_NULL;
+            screen_pos_display3_6 = CHARDISPLAY_NULL;
+            screen_pos_display3_7 = CHARDISPLAY_NULL;
+            screen_pos_display3_8 = CHARDISPLAY_NULL;
+            screen_pos_display3_9 = CHARDISPLAY_NULL;
+            screen_pos_display3_10 = CHARDISPLAY_NULL;
+            screen_pos_display3_11 = CHARDISPLAY_NULL;
+            screen_pos_display3_12 = CHARDISPLAY_NULL;
+        end
+
         case (char_pos)
             // First row
             0 : screen_pos_display0_0 = charDisplay;
