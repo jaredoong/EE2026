@@ -21,7 +21,7 @@
 
 
 module start_menu(
-    input basys3_clock,
+    input clock,
     input [15:0] sw,
     input [12:0] pixel_index,
     input left_click,
@@ -136,7 +136,7 @@ module start_menu(
     end
 
     // Selecting of option
-    always @ (posedge basys3_clock) begin
+    always @ (posedge clock) begin
         // For resetting back to the main menu
         if (sw[15] && sw[14] && sw[13]) begin
             stage <= 4'b1111;

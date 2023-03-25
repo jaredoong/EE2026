@@ -119,6 +119,7 @@ module Top_Student (
     wire [3:0] stage;
     reg [3:0] curr_task = 0;
 
+    clock_divider clk1Hz(basys3_clock,1, clk_1Hz);
     clock_divider clk20kHz(basys3_clock,20_000, clk_20kHz);
     clock_divider clk190Hz(basys3_clock,190, clk_190Hz);
     clock_divider clk380Hz(basys3_clock,380, clk_380Hz);
@@ -204,8 +205,12 @@ module Top_Student (
         .valid_number(valid_number)
     );
 
+    wire [1:0] debug_led;
     // Keyboard task
     keyboard_typer keyboard_typer_k(
+        .clock(clk_20kHz),
+        .clock_1Hz(clk_1Hz),
+        .debug_led(debug_led),
         .sw(sw),
         .pixel_index(pixel_index),
         .left_click(task_K_left_click),
@@ -220,7 +225,7 @@ module Top_Student (
  
     // Startup menu display
     start_menu startup_menu_display(
-        .basys3_clock(basys3_clock),
+        .clock(clk_20kHz),
         .sw(sw),
         .pixel_index(pixel_index),
         .left_click(menu_left_click),
@@ -347,6 +352,10 @@ module Top_Student (
                         led[11:0] = task_A_led;
                         led[14:12] = 3'b000;
 
+                    end
+            task_K : begin
+                        led[15:2] = 15'b000000000000000;
+                        led[1:0] = debug_led;
                     end
         default : led[15:0] = 16'b0000000000000000;
         endcase

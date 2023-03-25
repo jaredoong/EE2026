@@ -284,7 +284,7 @@ module group_g(
         end
     end
 
-    // Control output of an and 7-seg
+    // Control output of anode and 7-seg
     always @ (*) begin
         if (curr_an == an_pos0) begin
             seg = task_A_seg;
