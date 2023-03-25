@@ -408,17 +408,40 @@ module keyboard_typer(
                 CHARDISPLAY_WAITING: displayChar = displayWaiting(botleft_x, botleft_y, curr_x, curr_y);
                 CHARDISPLAY_A: displayChar = displayA(botleft_x, botleft_y, curr_x, curr_y);
                 CHARDISPLAY_B: displayChar = displayB(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_C: displayChar = displayC(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_D: displayChar = displayD(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_E: displayChar = displayE(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_F: displayChar = displayF(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_G: displayChar = displayG(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_H: displayChar = displayH(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_I: displayChar = displayI(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_J: displayChar = displayJ(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_K: displayChar = displayK(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_L: displayChar = displayL(botleft_x, botleft_y, curr_x, curr_y);
-                // CHARDISPLAY_M: displayChar = displayM(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_C: displayChar = displayC(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_D: displayChar = displayD(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_E: displayChar = displayE(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_F: displayChar = displayF(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_G: displayChar = displayG(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_H: displayChar = displayH(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_I: displayChar = displayI(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_J: displayChar = displayJ(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_K: displayChar = displayK(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_L: displayChar = displayL(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_M: displayChar = displayM(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_N: displayChar = displayN(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_O: displayChar = displayO(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_P: displayChar = displayP(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_Q: displayChar = displayQ(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_R: displayChar = displayR(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_S: displayChar = displayS(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_T: displayChar = displayT(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_U: displayChar = displayU(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_V: displayChar = displayV(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_W: displayChar = displayW(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_X: displayChar = displayX(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_Y: displayChar = displayY(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_Z: displayChar = displayZ(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_0: displayChar = display0(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_1: displayChar = display1(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_2: displayChar = display2(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_3: displayChar = display3(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_4: displayChar = display4(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_5: displayChar = display5(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_6: displayChar = display6(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_7: displayChar = display7(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_8: displayChar = display8(botleft_x, botleft_y, curr_x, curr_y);
+                CHARDISPLAY_9: displayChar = display9(botleft_x, botleft_y, curr_x, curr_y);
             default: displayChar = BACKGROUND_COLOR;    
             endcase
         end
@@ -1617,6 +1640,550 @@ module keyboard_typer(
         end
     endfunction
 
+    function [15:0] displayY (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==4) begin
+                    displayY = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayY = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==3) begin
+                    displayY = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayY = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==1 || (botleft_y - curr_y)==2) begin
+                    displayY = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayY = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==3) begin
+                    displayY = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayY = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)==4) begin
+                    displayY = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayY = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                displayY = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] displayZ (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==4) begin
+                    displayZ = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayZ = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==1 || (botleft_y - curr_y)==4) begin
+                    displayZ = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayZ = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    displayZ = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayZ = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==3 || (botleft_y - curr_y)==4) begin
+                    displayZ = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayZ = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==4) begin
+                    displayZ = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    displayZ = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                displayZ = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display0 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)>=1 && (botleft_y - curr_y)<=3) begin
+                    display0 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display0 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==4) begin
+                    display0 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display0 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==4) begin
+                    display0 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display0 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==4) begin
+                    display0 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display0 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)>=1 && (botleft_y - curr_y)<=3) begin
+                    display0 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display0 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display0 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display1 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==4) begin
+                    display1 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display1 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)>=0 && (botleft_y - curr_y)<=4) begin
+                    display1 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display1 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display1 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display2 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==3) begin
+                    display2 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display2 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==1 || (botleft_y - curr_y)==4) begin
+                    display2 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display2 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display2 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display2 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==3) begin
+                    display2 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display2 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display2 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display3 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==4) begin
+                    display3 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display3 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display3 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display3 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display3 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display3 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display3 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display3 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)>=0 && (botleft_y - curr_y)<=4) begin
+                    display3 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display3 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display3 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display4 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)>=2 && (botleft_y - curr_y)<=4) begin
+                    display4 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display4 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==2) begin
+                    display4 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display4 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==2) begin
+                    display4 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display4 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==2) begin
+                    display4 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display4 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)>=0 && (botleft_y - curr_y)<=4) begin
+                    display4 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display4 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display4 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display5 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==3) begin
+                    display5 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display5 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display5 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display5 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display5 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display5 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display5 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display5 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==1 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display5 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display5 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display5 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display6 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)>=0 && (botleft_y - curr_y)<=4) begin
+                    display6 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display6 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display6 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display6 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display6 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display6 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display6 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display6 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==1 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display6 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display6 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display6 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display7 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==4) begin
+                    display7 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display7 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==4) begin
+                    display7 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display7 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==1 || (botleft_y - curr_y)==4) begin
+                    display7 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display7 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==2 || (botleft_y - curr_y)==4) begin
+                    display7 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display7 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)==3 || (botleft_y - curr_y)==4) begin
+                    display7 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display7 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display7 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display8 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==1 || (botleft_y - curr_y)==3 ||(botleft_y - curr_y)==4) begin
+                    display8 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display8 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 ||(botleft_y - curr_y)==4) begin
+                    display8 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display8 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 ||(botleft_y - curr_y)==4) begin
+                    display8 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display8 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 ||(botleft_y - curr_y)==4) begin
+                    display8 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display8 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==1 || (botleft_y - curr_y)==3 ||(botleft_y - curr_y)==4) begin
+                    display8 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display8 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display8 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
+    function [15:0] display9 (input[6:0] botleft_x, input[6:0] botleft_y, input[6:0] curr_x, input[6:0] curr_y);
+        begin
+            if (botleft_x == curr_x) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 || (botleft_y - curr_y)==3 ||(botleft_y - curr_y)==4) begin
+                    display9 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display9 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 1) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 ||(botleft_y - curr_y)==4) begin
+                    display9 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display9 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 2) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 ||(botleft_y - curr_y)==4) begin
+                    display9 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display9 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 3) begin
+                if ((botleft_y - curr_y)==0 || (botleft_y - curr_y)==2 ||(botleft_y - curr_y)==4) begin
+                    display9 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display9 = BACKGROUND_COLOR;
+                end
+            end
+            else if ((curr_x-botleft_x) == 4) begin
+                if ((botleft_y - curr_y)>=0 && (botleft_y - curr_y)<=4) begin
+                    display9 = DISPLAYCHAR_COLOUR;
+                end
+                else begin
+                    display9 = BACKGROUND_COLOR;
+                end
+            end
+            else begin
+                display9 = BACKGROUND_COLOR;
+            end
+        end
+    endfunction
+
     // Registering of mouse clicks
     reg canDisplay = 1;
     reg [5:0] charDisplay = CHARDISPLAY_WAITING;
@@ -1674,235 +2241,275 @@ module keyboard_typer(
             charDisplay <= CHARDISPLAY_C;
         end
         else if (letter_D_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_D;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_D;
         end
         else if (letter_E_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_E;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_E;
         end
         else if (letter_F_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_F;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_F;
         end
         else if (letter_G_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_G;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_G;
         end
         else if (letter_H_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_H;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_H;
         end
         else if (letter_I_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_I;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_I;
         end
         else if (letter_J_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_J;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_J;
         end
         else if (letter_K_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_K;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_K;
         end
         else if (letter_L_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_L;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_L;
         end
         else if (letter_M_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_M;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_M;
         end
         else if (letter_N_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_N;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_N;
         end
         else if (letter_O_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_O;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_O;
         end
         else if (letter_P_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_P;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_P;
         end
         else if (letter_Q_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_Q;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_Q;
         end
         else if (letter_R_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_R;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_R;
         end
         else if (letter_S_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_S;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_S;
         end
         else if (letter_T_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_T;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_T;
         end
         else if (letter_U_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_U;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_U;
         end
         else if (letter_V_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_V;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_V;
         end
         else if (letter_W_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_W;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_W;
         end
         else if (letter_X_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_X;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_X;
         end
         else if (letter_Y_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_Y;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_Y;
         end
         else if (letter_Z_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_Z;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_Z;
+        end
+        else if (number_0_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_0;
+        end
+        else if (number_1_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_1;
+        end
+        else if (number_2_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_2;
+        end
+        else if (number_3_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_3;
+        end
+        else if (number_4_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_4;
+        end
+        else if (number_5_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_5;
+        end
+        else if (number_6_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_6;
+        end
+        else if (number_7_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_7;
+        end
+        else if (number_8_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_8;
+        end
+        else if (number_9_hover && left_click && canDisplay) begin
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_9;
         end
         else if (spacebar_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_SPACEBAR;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_SPACEBAR;
         end
         else if (del_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_BACKSPACE;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_BACKSPACE;
         end
         else if (enter_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_ENTER;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_ENTER;
         end
         else if (clear_hover && left_click && canDisplay) begin
-            canDisplay = 0;
-            charDisplay = CHARDISPLAY_CLEAR;
+            canDisplay <= 0;
+            charDisplay <= CHARDISPLAY_CLEAR;
         end
     end
 
     // Registering current position of screen display cursor
     always @ (posedge clock) begin
         if (charDisplay == CHARDISPLAY_CLEAR) begin
-            screen_pos_display0_0 = CHARDISPLAY_WAITING;
-            screen_pos_display0_1 = CHARDISPLAY_NULL;
-            screen_pos_display0_2 = CHARDISPLAY_NULL;
-            screen_pos_display0_3 = CHARDISPLAY_NULL;
-            screen_pos_display0_4 = CHARDISPLAY_NULL;
-            screen_pos_display0_5 = CHARDISPLAY_NULL;
-            screen_pos_display0_6 = CHARDISPLAY_NULL;
-            screen_pos_display0_7 = CHARDISPLAY_NULL;
-            screen_pos_display0_8 = CHARDISPLAY_NULL;
-            screen_pos_display0_9 = CHARDISPLAY_NULL;
-            screen_pos_display0_10 = CHARDISPLAY_NULL;
-            screen_pos_display0_11 = CHARDISPLAY_NULL;
-            screen_pos_display0_12 = CHARDISPLAY_NULL;
+            screen_pos_display0_0 <= CHARDISPLAY_WAITING;
+            screen_pos_display0_1 <= CHARDISPLAY_NULL;
+            screen_pos_display0_2 <= CHARDISPLAY_NULL;
+            screen_pos_display0_3 <= CHARDISPLAY_NULL;
+            screen_pos_display0_4 <= CHARDISPLAY_NULL;
+            screen_pos_display0_5 <= CHARDISPLAY_NULL;
+            screen_pos_display0_6 <= CHARDISPLAY_NULL;
+            screen_pos_display0_7 <= CHARDISPLAY_NULL;
+            screen_pos_display0_8 <= CHARDISPLAY_NULL;
+            screen_pos_display0_9 <= CHARDISPLAY_NULL;
+            screen_pos_display0_10 <= CHARDISPLAY_NULL;
+            screen_pos_display0_11 <= CHARDISPLAY_NULL;
+            screen_pos_display0_12 <= CHARDISPLAY_NULL;
 
-            screen_pos_display1_0 = CHARDISPLAY_NULL;
-            screen_pos_display1_1 = CHARDISPLAY_NULL;
-            screen_pos_display1_2 = CHARDISPLAY_NULL;
-            screen_pos_display1_3 = CHARDISPLAY_NULL;
-            screen_pos_display1_4 = CHARDISPLAY_NULL;
-            screen_pos_display1_5 = CHARDISPLAY_NULL;
-            screen_pos_display1_6 = CHARDISPLAY_NULL;
-            screen_pos_display1_7 = CHARDISPLAY_NULL;
-            screen_pos_display1_8 = CHARDISPLAY_NULL;
-            screen_pos_display1_9 = CHARDISPLAY_NULL;
-            screen_pos_display1_10 = CHARDISPLAY_NULL;
-            screen_pos_display1_11 = CHARDISPLAY_NULL;
-            screen_pos_display1_12 = CHARDISPLAY_NULL;
+            screen_pos_display1_0 <= CHARDISPLAY_NULL;
+            screen_pos_display1_1 <= CHARDISPLAY_NULL;
+            screen_pos_display1_2 <= CHARDISPLAY_NULL;
+            screen_pos_display1_3 <= CHARDISPLAY_NULL;
+            screen_pos_display1_4 <= CHARDISPLAY_NULL;
+            screen_pos_display1_5 <= CHARDISPLAY_NULL;
+            screen_pos_display1_6 <= CHARDISPLAY_NULL;
+            screen_pos_display1_7 <= CHARDISPLAY_NULL;
+            screen_pos_display1_8 <= CHARDISPLAY_NULL;
+            screen_pos_display1_9 <= CHARDISPLAY_NULL;
+            screen_pos_display1_10 <= CHARDISPLAY_NULL;
+            screen_pos_display1_11 <= CHARDISPLAY_NULL;
+            screen_pos_display1_12 <= CHARDISPLAY_NULL;
             
-            screen_pos_display2_0 = CHARDISPLAY_NULL;
-            screen_pos_display2_1 = CHARDISPLAY_NULL;
-            screen_pos_display2_2 = CHARDISPLAY_NULL;
-            screen_pos_display2_3 = CHARDISPLAY_NULL;
-            screen_pos_display2_4 = CHARDISPLAY_NULL;
-            screen_pos_display2_5 = CHARDISPLAY_NULL;
-            screen_pos_display2_6 = CHARDISPLAY_NULL;
-            screen_pos_display2_7 = CHARDISPLAY_NULL;
-            screen_pos_display2_8 = CHARDISPLAY_NULL;
-            screen_pos_display2_9 = CHARDISPLAY_NULL;
-            screen_pos_display2_10 = CHARDISPLAY_NULL;
-            screen_pos_display2_11 = CHARDISPLAY_NULL;
-            screen_pos_display2_12 = CHARDISPLAY_NULL;
+            screen_pos_display2_0 <= CHARDISPLAY_NULL;
+            screen_pos_display2_1 <= CHARDISPLAY_NULL;
+            screen_pos_display2_2 <= CHARDISPLAY_NULL;
+            screen_pos_display2_3 <= CHARDISPLAY_NULL;
+            screen_pos_display2_4 <= CHARDISPLAY_NULL;
+            screen_pos_display2_5 <= CHARDISPLAY_NULL;
+            screen_pos_display2_6 <= CHARDISPLAY_NULL;
+            screen_pos_display2_7 <= CHARDISPLAY_NULL;
+            screen_pos_display2_8 <= CHARDISPLAY_NULL;
+            screen_pos_display2_9 <= CHARDISPLAY_NULL;
+            screen_pos_display2_10 <= CHARDISPLAY_NULL;
+            screen_pos_display2_11 <= CHARDISPLAY_NULL;
+            screen_pos_display2_12 <= CHARDISPLAY_NULL;
 
-            screen_pos_display3_0 = CHARDISPLAY_NULL;
-            screen_pos_display3_1 = CHARDISPLAY_NULL;
-            screen_pos_display3_2 = CHARDISPLAY_NULL;
-            screen_pos_display3_3 = CHARDISPLAY_NULL;
-            screen_pos_display3_4 = CHARDISPLAY_NULL;
-            screen_pos_display3_5 = CHARDISPLAY_NULL;
-            screen_pos_display3_6 = CHARDISPLAY_NULL;
-            screen_pos_display3_7 = CHARDISPLAY_NULL;
-            screen_pos_display3_8 = CHARDISPLAY_NULL;
-            screen_pos_display3_9 = CHARDISPLAY_NULL;
-            screen_pos_display3_10 = CHARDISPLAY_NULL;
-            screen_pos_display3_11 = CHARDISPLAY_NULL;
-            screen_pos_display3_12 = CHARDISPLAY_NULL;
+            screen_pos_display3_0 <= CHARDISPLAY_NULL;
+            screen_pos_display3_1 <= CHARDISPLAY_NULL;
+            screen_pos_display3_2 <= CHARDISPLAY_NULL;
+            screen_pos_display3_3 <= CHARDISPLAY_NULL;
+            screen_pos_display3_4 <= CHARDISPLAY_NULL;
+            screen_pos_display3_5 <= CHARDISPLAY_NULL;
+            screen_pos_display3_6 <= CHARDISPLAY_NULL;
+            screen_pos_display3_7 <= CHARDISPLAY_NULL;
+            screen_pos_display3_8 <= CHARDISPLAY_NULL;
+            screen_pos_display3_9 <= CHARDISPLAY_NULL;
+            screen_pos_display3_10 <= CHARDISPLAY_NULL;
+            screen_pos_display3_11 <= CHARDISPLAY_NULL;
+            screen_pos_display3_12 <= CHARDISPLAY_NULL;
         end
 
         case (char_pos)
             // First row
-            0 : screen_pos_display0_0 = charDisplay;
-            1 : screen_pos_display0_1 = charDisplay;
-            2 : screen_pos_display0_2 = charDisplay;
-            3 : screen_pos_display0_3 = charDisplay;
-            4 : screen_pos_display0_4 = charDisplay;
-            5 : screen_pos_display0_5 = charDisplay;
-            6 : screen_pos_display0_6 = charDisplay;
-            7 : screen_pos_display0_7 = charDisplay;
-            8 : screen_pos_display0_8 = charDisplay;
-            9 : screen_pos_display0_9 = charDisplay;
-            10 : screen_pos_display0_10 = charDisplay;
-            11 : screen_pos_display0_11 = charDisplay;
-            12 : screen_pos_display0_12 = charDisplay;
+            0 : screen_pos_display0_0 <= charDisplay;
+            1 : screen_pos_display0_1 <= charDisplay;
+            2 : screen_pos_display0_2 <= charDisplay;
+            3 : screen_pos_display0_3 <= charDisplay;
+            4 : screen_pos_display0_4 <= charDisplay;
+            5 : screen_pos_display0_5 <= charDisplay;
+            6 : screen_pos_display0_6 <= charDisplay;
+            7 : screen_pos_display0_7 <= charDisplay;
+            8 : screen_pos_display0_8 <= charDisplay;
+            9 : screen_pos_display0_9 <= charDisplay;
+            10 : screen_pos_display0_10 <= charDisplay;
+            11 : screen_pos_display0_11 <= charDisplay;
+            12 : screen_pos_display0_12 <= charDisplay;
 
             // Second row
-            13 : screen_pos_display1_0 = charDisplay;
-            14 : screen_pos_display1_1 = charDisplay;
-            15 : screen_pos_display1_2 = charDisplay;
-            16 : screen_pos_display1_3 = charDisplay;
-            17 : screen_pos_display1_4 = charDisplay;
-            18 : screen_pos_display1_5 = charDisplay;
-            19 : screen_pos_display1_6 = charDisplay;
-            20 : screen_pos_display1_7 = charDisplay;
-            21 : screen_pos_display1_8 = charDisplay;
-            22 : screen_pos_display1_9 = charDisplay;
-            23 : screen_pos_display1_10 = charDisplay;
-            24 : screen_pos_display1_11 = charDisplay;
-            25 : screen_pos_display1_12 = charDisplay;
+            13 : screen_pos_display1_0 <= charDisplay;
+            14 : screen_pos_display1_1 <= charDisplay;
+            15 : screen_pos_display1_2 <= charDisplay;
+            16 : screen_pos_display1_3 <= charDisplay;
+            17 : screen_pos_display1_4 <= charDisplay;
+            18 : screen_pos_display1_5 <= charDisplay;
+            19 : screen_pos_display1_6 <= charDisplay;
+            20 : screen_pos_display1_7 <= charDisplay;
+            21 : screen_pos_display1_8 <= charDisplay;
+            22 : screen_pos_display1_9 <= charDisplay;
+            23 : screen_pos_display1_10 <= charDisplay;
+            24 : screen_pos_display1_11 <= charDisplay;
+            25 : screen_pos_display1_12 <= charDisplay;
 
             // Third row
-            26 : screen_pos_display2_0 = charDisplay;
-            27 : screen_pos_display2_1 = charDisplay;
-            28 : screen_pos_display2_2 = charDisplay;
-            29 : screen_pos_display2_3 = charDisplay;
-            30 : screen_pos_display2_4 = charDisplay;
-            31 : screen_pos_display2_5 = charDisplay;
-            32 : screen_pos_display2_6 = charDisplay;
-            33 : screen_pos_display2_7 = charDisplay;
-            34 : screen_pos_display2_8 = charDisplay;
-            35 : screen_pos_display2_9 = charDisplay;
-            36 : screen_pos_display2_10 = charDisplay;
-            37 : screen_pos_display2_11 = charDisplay;
-            38 : screen_pos_display2_12 = charDisplay;
+            26 : screen_pos_display2_0 <= charDisplay;
+            27 : screen_pos_display2_1 <= charDisplay;
+            28 : screen_pos_display2_2 <= charDisplay;
+            29 : screen_pos_display2_3 <= charDisplay;
+            30 : screen_pos_display2_4 <= charDisplay;
+            31 : screen_pos_display2_5 <= charDisplay;
+            32 : screen_pos_display2_6 <= charDisplay;
+            33 : screen_pos_display2_7 <= charDisplay;
+            34 : screen_pos_display2_8 <= charDisplay;
+            35 : screen_pos_display2_9 <= charDisplay;
+            36 : screen_pos_display2_10 <= charDisplay;
+            37 : screen_pos_display2_11 <= charDisplay;
+            38 : screen_pos_display2_12 <= charDisplay;
             
             // Fourth row
-            39 : screen_pos_display3_0 = charDisplay;
-            40 : screen_pos_display3_1 = charDisplay;
-            41 : screen_pos_display3_2 = charDisplay;
-            42 : screen_pos_display3_3 = charDisplay;
-            43 : screen_pos_display3_4 = charDisplay;
-            44 : screen_pos_display3_5 = charDisplay;
-            45 : screen_pos_display3_6 = charDisplay;
-            46 : screen_pos_display3_7 = charDisplay;
-            47 : screen_pos_display3_8 = charDisplay;
-            48 : screen_pos_display3_9 = charDisplay;
-            49 : screen_pos_display3_10 = charDisplay;
-            50 : screen_pos_display3_11 = charDisplay;
-            51 : screen_pos_display3_12 = charDisplay;
+            39 : screen_pos_display3_0 <= charDisplay;
+            40 : screen_pos_display3_1 <= charDisplay;
+            41 : screen_pos_display3_2 <= charDisplay;
+            42 : screen_pos_display3_3 <= charDisplay;
+            43 : screen_pos_display3_4 <= charDisplay;
+            44 : screen_pos_display3_5 <= charDisplay;
+            45 : screen_pos_display3_6 <= charDisplay;
+            46 : screen_pos_display3_7 <= charDisplay;
+            47 : screen_pos_display3_8 <= charDisplay;
+            48 : screen_pos_display3_9 <= charDisplay;
+            49 : screen_pos_display3_10 <= charDisplay;
+            50 : screen_pos_display3_11 <= charDisplay;
+            51 : screen_pos_display3_12 <= charDisplay;
         endcase
     end
 
