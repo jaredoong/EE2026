@@ -11,7 +11,7 @@ set_property PACKAGE_PIN W5 [get_ports basys3_clock]
 ## Switches
 set_property PACKAGE_PIN V17 [get_ports {sw[0]}]					
 	set_property IOSTANDARD LVCMOS33 [get_ports {sw[0]}]
-set_property PACKAGE_PIN V16 [get_ports {sw[1]}]					
+set_property PACKAGE_PIN V16 [get_ports {sw[1]}]	
 	set_property IOSTANDARD LVCMOS33 [get_ports {sw[1]}]
 set_property PACKAGE_PIN W16 [get_ports {sw[2]}]					
 	set_property IOSTANDARD LVCMOS33 [get_ports {sw[2]}]

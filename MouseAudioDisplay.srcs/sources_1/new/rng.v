@@ -21,20 +21,22 @@
 
 
 module rng(
-    input wire clk_190Hz, //
-    output reg [5:0] random_number // 6-bit output, random number between 1 and 36
-    );
+  input clk,
+  output reg [5:0] rand_num
+);
 
-    reg [7:0] lfsr; // 8-bit Linear Feedback Shift Register (LFSR) for pseudo-random generation
+  // Define LCG parameters
+  parameter integer a = 1664525;
+  parameter integer c = 1013904223;
+  parameter integer m = 65536; // 2^16
+  
+  // Define internal state
+  reg [15:0] state = 1;
 
-    // LFSR feedback polynomial for 8-bit maximal-length sequence:
-    // x^8 + x^6 + x^5 + x^4 + 1
-    wire feedback = lfsr[7] ^ lfsr[5] ^ lfsr[4] ^ lfsr[3];
+  // Generate random number
+  always @ (posedge clk) begin
+    state <= (a * state + c) % m;
+    rand_num <= (state % 36) + 1; // Scale to range [1, 36]
+  end
 
-    always @ (posedge clk_190Hz) begin
-        lfsr <= {lfsr[6:0], feedback}; // Shift LFSR and apply feedback
-        
-        // Get a random number between 1 and 36, inclusive
-        random_number <= (lfsr[5:0] % 36) + 1;
-    end
 endmodule

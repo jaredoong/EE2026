@@ -212,6 +212,7 @@ module Top_Student (
     keyboard_typer keyboard_typer_k(
         .clock(clk_20kHz),
         .clock_1Hz(clk_1Hz),
+        .clock_190Hz(clk_190Hz),
         .debug_led(debug_led),
         .sw(sw),
         .pixel_index(pixel_index),
@@ -221,8 +222,7 @@ module Top_Student (
         .cursor_y(cursor_y),
         .diff_x(diff_x),
         .diff_y(diff_y),
-        // .random_number(random_number),
-        .cursor_size(task_K_cursor_size),
+        .random_number(random_number),
         .pixel_data(task_K_pixel_data)        
     );
  
@@ -316,11 +316,11 @@ module Top_Student (
         .DATA2()
     );
 
-    // // Random number generator for keyboard monkeytype
-    // random_number_generator rng(
-    //     .basys3_clock(basys3_clock),
-    //     .random_number(random_number)
-    // );
+    // Random number generator for keyboard monkeytype
+    rng rng36(
+        .clk(basys3_clock),
+        .rand_num(random_number)
+    );
 
     always @ (*) begin
         case (stage)

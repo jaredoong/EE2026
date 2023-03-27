@@ -23,6 +23,7 @@
 module keyboard_typer(
     input clock,
     input clock_1Hz,
+    input clock_190Hz,
     output reg [1:0] debug_led = 0,
     input [15:0] sw,
     input [12:0] pixel_index,
@@ -32,7 +33,7 @@ module keyboard_typer(
     input [6:0] cursor_y,
     input [6:0] diff_x,
     input [6:0] diff_y,
-    // input [5:0] random_number,
+    input [5:0] random_number,
     output reg [3:0] cursor_size = 2,
     output reg [15:0] pixel_data = 0
     );
@@ -40,12 +41,11 @@ module keyboard_typer(
     // State machine states
     localparam NORMAL_MODE = 0;
     localparam TEST_MODE = 1;
+    reg test_ready = 0;
+    reg [5:0] prev_test_char = 0;
+    reg [5:0] curr_test_char = 0;
     reg state = NORMAL_MODE;
     reg [15:0] topHalfTestDisplay = 0;
-
-
-    // To be deleted
-    assign random_number = 5;
 
     // For selecting the 2 modes
     always @ (*) begin
@@ -113,6 +113,8 @@ module keyboard_typer(
     parameter HOVER_NOT_COLOURED = WHITE;
     parameter DISPLAYCHAR_COLOUR = WHITE;
     parameter BACKGROUND_COLOR = BLACK;
+    parameter CORRECT_CHAR = GREEN;
+    parameter WRONG_CHAR = RED;
 
     reg [5:0] test_char_pos = 0;
     reg [5:0] char_pos = 0;
@@ -186,60 +188,6 @@ module keyboard_typer(
     reg [15:0] screen_pos_display3_10 = CHARDISPLAY_NULL;
     reg [15:0] screen_pos_display3_11 = CHARDISPLAY_NULL;
     reg [15:0] screen_pos_display3_12 = CHARDISPLAY_NULL;
-
-    // For displaying each character in test mode
-    reg [15:0] screen_pos_test0_0 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test0_12 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_0 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test1_12 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_0 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test2_12 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_0 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_test3_12 = CHARDISPLAY_NULL;
 
     // For checking if each position is filled
     assign screen_pos_0_0_border = (x_pos >= 3 && x_pos <= 7) && (y_pos >= 1 && y_pos <= 5);
@@ -2267,324 +2215,409 @@ module keyboard_typer(
             canDisplay <= 1;
         end
 
-        if ((charDisplay != CHARDISPLAY_WAITING) && (charDisplay != CHARDISPLAY_NULL)) begin
-            case (charDisplay)
-                CHARDISPLAY_BACKSPACE: begin
-                    if (char_pos > 0) begin
-                        char_pos <= char_pos - 1;
-                    end else begin
-                        char_pos <= 51;
+        if (state == NORMAL_MODE) begin
+            if ((charDisplay != CHARDISPLAY_WAITING) && (charDisplay != CHARDISPLAY_NULL)) begin
+                case (charDisplay)
+                    CHARDISPLAY_BACKSPACE: begin
+                        if (char_pos > 0) begin
+                            char_pos <= char_pos - 1;
+                        end else begin
+                            char_pos <= 51;
+                        end
                     end
-                end
 
-                CHARDISPLAY_ENTER : begin
-                    if (char_pos <= 38) begin
-                        char_pos <= char_pos + 13;
-                    end else begin
-                        char_pos <= char_pos - 39;
+                    CHARDISPLAY_ENTER : begin
+                        if (char_pos <= 38) begin
+                            char_pos <= char_pos + 13;
+                        end else begin
+                            char_pos <= char_pos - 39;
+                        end
                     end
-                end
 
-                CHARDISPLAY_CLEAR : begin
-                    char_pos <= 0;
-                end
-
-                default : begin
-                    if (char_pos < 51) begin
-                        char_pos <= char_pos + 1;
-                    end
-                    else begin
+                    CHARDISPLAY_CLEAR : begin
                         char_pos <= 0;
                     end
+
+                    default : begin
+                        if (char_pos < 51) begin
+                            char_pos <= char_pos + 1;
+                        end
+                        else begin
+                            char_pos <= 0;
+                        end
+                    end
+                endcase
+
+                charDisplay <= CHARDISPLAY_WAITING; 
+            end
+
+            if (letter_A_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_A;
+            end
+            else if (letter_B_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_B;
+            end
+            else if (letter_C_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_C;
+            end
+            else if (letter_D_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_D;
+            end
+            else if (letter_E_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_E;
+            end
+            else if (letter_F_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_F;
+            end
+            else if (letter_G_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_G;
+            end
+            else if (letter_H_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_H;
+            end
+            else if (letter_I_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_I;
+            end
+            else if (letter_J_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_J;
+            end
+            else if (letter_K_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_K;
+            end
+            else if (letter_L_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_L;
+            end
+            else if (letter_M_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_M;
+            end
+            else if (letter_N_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_N;
+            end
+            else if (letter_O_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_O;
+            end
+            else if (letter_P_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_P;
+            end
+            else if (letter_Q_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_Q;
+            end
+            else if (letter_R_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_R;
+            end
+            else if (letter_S_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_S;
+            end
+            else if (letter_T_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_T;
+            end
+            else if (letter_U_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_U;
+            end
+            else if (letter_V_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_V;
+            end
+            else if (letter_W_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_W;
+            end
+            else if (letter_X_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_X;
+            end
+            else if (letter_Y_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_Y;
+            end
+            else if (letter_Z_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_Z;
+            end
+            else if (number_0_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_0;
+            end
+            else if (number_1_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_1;
+            end
+            else if (number_2_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_2;
+            end
+            else if (number_3_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_3;
+            end
+            else if (number_4_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_4;
+            end
+            else if (number_5_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_5;
+            end
+            else if (number_6_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_6;
+            end
+            else if (number_7_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_7;
+            end
+            else if (number_8_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_8;
+            end
+            else if (number_9_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_9;
+            end
+            else if (spacebar_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_SPACEBAR;
+            end
+            else if (del_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_BACKSPACE;
+            end
+            else if (enter_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_ENTER;
+            end
+            else if (clear_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_CLEAR;
+            end
+        end
+
+        else if (state == TEST_MODE) begin
+            if (!test_ready && (curr_test_char != prev_test_char)) begin
+                if (test_char_pos < 51) begin
+                    test_char_pos <= test_char_pos + 1;
                 end
-            endcase
-
-            charDisplay <= CHARDISPLAY_WAITING; 
-        end
-
-        if (letter_A_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_A;
-        end
-        else if (letter_B_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_B;
-        end
-        else if (letter_C_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_C;
-        end
-        else if (letter_D_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_D;
-        end
-        else if (letter_E_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_E;
-        end
-        else if (letter_F_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_F;
-        end
-        else if (letter_G_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_G;
-        end
-        else if (letter_H_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_H;
-        end
-        else if (letter_I_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_I;
-        end
-        else if (letter_J_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_J;
-        end
-        else if (letter_K_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_K;
-        end
-        else if (letter_L_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_L;
-        end
-        else if (letter_M_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_M;
-        end
-        else if (letter_N_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_N;
-        end
-        else if (letter_O_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_O;
-        end
-        else if (letter_P_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_P;
-        end
-        else if (letter_Q_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_Q;
-        end
-        else if (letter_R_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_R;
-        end
-        else if (letter_S_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_S;
-        end
-        else if (letter_T_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_T;
-        end
-        else if (letter_U_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_U;
-        end
-        else if (letter_V_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_V;
-        end
-        else if (letter_W_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_W;
-        end
-        else if (letter_X_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_X;
-        end
-        else if (letter_Y_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_Y;
-        end
-        else if (letter_Z_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_Z;
-        end
-        else if (number_0_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_0;
-        end
-        else if (number_1_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_1;
-        end
-        else if (number_2_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_2;
-        end
-        else if (number_3_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_3;
-        end
-        else if (number_4_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_4;
-        end
-        else if (number_5_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_5;
-        end
-        else if (number_6_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_6;
-        end
-        else if (number_7_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_7;
-        end
-        else if (number_8_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_8;
-        end
-        else if (number_9_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_9;
-        end
-        else if (spacebar_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_SPACEBAR;
-        end
-        else if (del_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_BACKSPACE;
-        end
-        else if (enter_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_ENTER;
-        end
-        else if (clear_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_CLEAR;
+                else begin
+                    test_ready <= 1;
+                    test_char_pos <= 0;
+                end
+            end
+            prev_test_char <= curr_test_char;
+            curr_test_char <= random_number;
         end
     end
 
     // Registering current position of screen display cursor
     always @ (posedge clock) begin
-        if (charDisplay == CHARDISPLAY_CLEAR) begin
-            screen_pos_display0_0 <= CHARDISPLAY_WAITING;
-            screen_pos_display0_1 <= CHARDISPLAY_NULL;
-            screen_pos_display0_2 <= CHARDISPLAY_NULL;
-            screen_pos_display0_3 <= CHARDISPLAY_NULL;
-            screen_pos_display0_4 <= CHARDISPLAY_NULL;
-            screen_pos_display0_5 <= CHARDISPLAY_NULL;
-            screen_pos_display0_6 <= CHARDISPLAY_NULL;
-            screen_pos_display0_7 <= CHARDISPLAY_NULL;
-            screen_pos_display0_8 <= CHARDISPLAY_NULL;
-            screen_pos_display0_9 <= CHARDISPLAY_NULL;
-            screen_pos_display0_10 <= CHARDISPLAY_NULL;
-            screen_pos_display0_11 <= CHARDISPLAY_NULL;
-            screen_pos_display0_12 <= CHARDISPLAY_NULL;
+        if (state == NORMAL_MODE) begin
+            if (charDisplay == CHARDISPLAY_CLEAR) begin
+                screen_pos_display0_0 <= CHARDISPLAY_WAITING;
+                screen_pos_display0_1 <= CHARDISPLAY_NULL;
+                screen_pos_display0_2 <= CHARDISPLAY_NULL;
+                screen_pos_display0_3 <= CHARDISPLAY_NULL;
+                screen_pos_display0_4 <= CHARDISPLAY_NULL;
+                screen_pos_display0_5 <= CHARDISPLAY_NULL;
+                screen_pos_display0_6 <= CHARDISPLAY_NULL;
+                screen_pos_display0_7 <= CHARDISPLAY_NULL;
+                screen_pos_display0_8 <= CHARDISPLAY_NULL;
+                screen_pos_display0_9 <= CHARDISPLAY_NULL;
+                screen_pos_display0_10 <= CHARDISPLAY_NULL;
+                screen_pos_display0_11 <= CHARDISPLAY_NULL;
+                screen_pos_display0_12 <= CHARDISPLAY_NULL;
 
-            screen_pos_display1_0 <= CHARDISPLAY_NULL;
-            screen_pos_display1_1 <= CHARDISPLAY_NULL;
-            screen_pos_display1_2 <= CHARDISPLAY_NULL;
-            screen_pos_display1_3 <= CHARDISPLAY_NULL;
-            screen_pos_display1_4 <= CHARDISPLAY_NULL;
-            screen_pos_display1_5 <= CHARDISPLAY_NULL;
-            screen_pos_display1_6 <= CHARDISPLAY_NULL;
-            screen_pos_display1_7 <= CHARDISPLAY_NULL;
-            screen_pos_display1_8 <= CHARDISPLAY_NULL;
-            screen_pos_display1_9 <= CHARDISPLAY_NULL;
-            screen_pos_display1_10 <= CHARDISPLAY_NULL;
-            screen_pos_display1_11 <= CHARDISPLAY_NULL;
-            screen_pos_display1_12 <= CHARDISPLAY_NULL;
-            
-            screen_pos_display2_0 <= CHARDISPLAY_NULL;
-            screen_pos_display2_1 <= CHARDISPLAY_NULL;
-            screen_pos_display2_2 <= CHARDISPLAY_NULL;
-            screen_pos_display2_3 <= CHARDISPLAY_NULL;
-            screen_pos_display2_4 <= CHARDISPLAY_NULL;
-            screen_pos_display2_5 <= CHARDISPLAY_NULL;
-            screen_pos_display2_6 <= CHARDISPLAY_NULL;
-            screen_pos_display2_7 <= CHARDISPLAY_NULL;
-            screen_pos_display2_8 <= CHARDISPLAY_NULL;
-            screen_pos_display2_9 <= CHARDISPLAY_NULL;
-            screen_pos_display2_10 <= CHARDISPLAY_NULL;
-            screen_pos_display2_11 <= CHARDISPLAY_NULL;
-            screen_pos_display2_12 <= CHARDISPLAY_NULL;
+                screen_pos_display1_0 <= CHARDISPLAY_NULL;
+                screen_pos_display1_1 <= CHARDISPLAY_NULL;
+                screen_pos_display1_2 <= CHARDISPLAY_NULL;
+                screen_pos_display1_3 <= CHARDISPLAY_NULL;
+                screen_pos_display1_4 <= CHARDISPLAY_NULL;
+                screen_pos_display1_5 <= CHARDISPLAY_NULL;
+                screen_pos_display1_6 <= CHARDISPLAY_NULL;
+                screen_pos_display1_7 <= CHARDISPLAY_NULL;
+                screen_pos_display1_8 <= CHARDISPLAY_NULL;
+                screen_pos_display1_9 <= CHARDISPLAY_NULL;
+                screen_pos_display1_10 <= CHARDISPLAY_NULL;
+                screen_pos_display1_11 <= CHARDISPLAY_NULL;
+                screen_pos_display1_12 <= CHARDISPLAY_NULL;
+                
+                screen_pos_display2_0 <= CHARDISPLAY_NULL;
+                screen_pos_display2_1 <= CHARDISPLAY_NULL;
+                screen_pos_display2_2 <= CHARDISPLAY_NULL;
+                screen_pos_display2_3 <= CHARDISPLAY_NULL;
+                screen_pos_display2_4 <= CHARDISPLAY_NULL;
+                screen_pos_display2_5 <= CHARDISPLAY_NULL;
+                screen_pos_display2_6 <= CHARDISPLAY_NULL;
+                screen_pos_display2_7 <= CHARDISPLAY_NULL;
+                screen_pos_display2_8 <= CHARDISPLAY_NULL;
+                screen_pos_display2_9 <= CHARDISPLAY_NULL;
+                screen_pos_display2_10 <= CHARDISPLAY_NULL;
+                screen_pos_display2_11 <= CHARDISPLAY_NULL;
+                screen_pos_display2_12 <= CHARDISPLAY_NULL;
 
-            screen_pos_display3_0 <= CHARDISPLAY_NULL;
-            screen_pos_display3_1 <= CHARDISPLAY_NULL;
-            screen_pos_display3_2 <= CHARDISPLAY_NULL;
-            screen_pos_display3_3 <= CHARDISPLAY_NULL;
-            screen_pos_display3_4 <= CHARDISPLAY_NULL;
-            screen_pos_display3_5 <= CHARDISPLAY_NULL;
-            screen_pos_display3_6 <= CHARDISPLAY_NULL;
-            screen_pos_display3_7 <= CHARDISPLAY_NULL;
-            screen_pos_display3_8 <= CHARDISPLAY_NULL;
-            screen_pos_display3_9 <= CHARDISPLAY_NULL;
-            screen_pos_display3_10 <= CHARDISPLAY_NULL;
-            screen_pos_display3_11 <= CHARDISPLAY_NULL;
-            screen_pos_display3_12 <= CHARDISPLAY_NULL;
+                screen_pos_display3_0 <= CHARDISPLAY_NULL;
+                screen_pos_display3_1 <= CHARDISPLAY_NULL;
+                screen_pos_display3_2 <= CHARDISPLAY_NULL;
+                screen_pos_display3_3 <= CHARDISPLAY_NULL;
+                screen_pos_display3_4 <= CHARDISPLAY_NULL;
+                screen_pos_display3_5 <= CHARDISPLAY_NULL;
+                screen_pos_display3_6 <= CHARDISPLAY_NULL;
+                screen_pos_display3_7 <= CHARDISPLAY_NULL;
+                screen_pos_display3_8 <= CHARDISPLAY_NULL;
+                screen_pos_display3_9 <= CHARDISPLAY_NULL;
+                screen_pos_display3_10 <= CHARDISPLAY_NULL;
+                screen_pos_display3_11 <= CHARDISPLAY_NULL;
+                screen_pos_display3_12 <= CHARDISPLAY_NULL;
+            end
+
+            case (char_pos)
+                // First row
+                0 : screen_pos_display0_0 <= charDisplay;
+                1 : screen_pos_display0_1 <= charDisplay;
+                2 : screen_pos_display0_2 <= charDisplay;
+                3 : screen_pos_display0_3 <= charDisplay;
+                4 : screen_pos_display0_4 <= charDisplay;
+                5 : screen_pos_display0_5 <= charDisplay;
+                6 : screen_pos_display0_6 <= charDisplay;
+                7 : screen_pos_display0_7 <= charDisplay;
+                8 : screen_pos_display0_8 <= charDisplay;
+                9 : screen_pos_display0_9 <= charDisplay;
+                10 : screen_pos_display0_10 <= charDisplay;
+                11 : screen_pos_display0_11 <= charDisplay;
+                12 : screen_pos_display0_12 <= charDisplay;
+
+                // Second row
+                13 : screen_pos_display1_0 <= charDisplay;
+                14 : screen_pos_display1_1 <= charDisplay;
+                15 : screen_pos_display1_2 <= charDisplay;
+                16 : screen_pos_display1_3 <= charDisplay;
+                17 : screen_pos_display1_4 <= charDisplay;
+                18 : screen_pos_display1_5 <= charDisplay;
+                19 : screen_pos_display1_6 <= charDisplay;
+                20 : screen_pos_display1_7 <= charDisplay;
+                21 : screen_pos_display1_8 <= charDisplay;
+                22 : screen_pos_display1_9 <= charDisplay;
+                23 : screen_pos_display1_10 <= charDisplay;
+                24 : screen_pos_display1_11 <= charDisplay;
+                25 : screen_pos_display1_12 <= charDisplay;
+
+                // Third row
+                26 : screen_pos_display2_0 <= charDisplay;
+                27 : screen_pos_display2_1 <= charDisplay;
+                28 : screen_pos_display2_2 <= charDisplay;
+                29 : screen_pos_display2_3 <= charDisplay;
+                30 : screen_pos_display2_4 <= charDisplay;
+                31 : screen_pos_display2_5 <= charDisplay;
+                32 : screen_pos_display2_6 <= charDisplay;
+                33 : screen_pos_display2_7 <= charDisplay;
+                34 : screen_pos_display2_8 <= charDisplay;
+                35 : screen_pos_display2_9 <= charDisplay;
+                36 : screen_pos_display2_10 <= charDisplay;
+                37 : screen_pos_display2_11 <= charDisplay;
+                38 : screen_pos_display2_12 <= charDisplay;
+                
+                // Fourth row
+                39 : screen_pos_display3_0 <= charDisplay;
+                40 : screen_pos_display3_1 <= charDisplay;
+                41 : screen_pos_display3_2 <= charDisplay;
+                42 : screen_pos_display3_3 <= charDisplay;
+                43 : screen_pos_display3_4 <= charDisplay;
+                44 : screen_pos_display3_5 <= charDisplay;
+                45 : screen_pos_display3_6 <= charDisplay;
+                46 : screen_pos_display3_7 <= charDisplay;
+                47 : screen_pos_display3_8 <= charDisplay;
+                48 : screen_pos_display3_9 <= charDisplay;
+                49 : screen_pos_display3_10 <= charDisplay;
+                50 : screen_pos_display3_11 <= charDisplay;
+                51 : screen_pos_display3_12 <= charDisplay;
+            endcase
         end
 
-        case (char_pos)
-            // First row
-            0 : screen_pos_display0_0 <= charDisplay;
-            1 : screen_pos_display0_1 <= charDisplay;
-            2 : screen_pos_display0_2 <= charDisplay;
-            3 : screen_pos_display0_3 <= charDisplay;
-            4 : screen_pos_display0_4 <= charDisplay;
-            5 : screen_pos_display0_5 <= charDisplay;
-            6 : screen_pos_display0_6 <= charDisplay;
-            7 : screen_pos_display0_7 <= charDisplay;
-            8 : screen_pos_display0_8 <= charDisplay;
-            9 : screen_pos_display0_9 <= charDisplay;
-            10 : screen_pos_display0_10 <= charDisplay;
-            11 : screen_pos_display0_11 <= charDisplay;
-            12 : screen_pos_display0_12 <= charDisplay;
+        else if (state == TEST_MODE) begin
+            if (!test_ready) begin
+                // Setting up test
+                case (test_char_pos)
+                    // First row
+                    0 : screen_pos_display0_0 <= curr_test_char;
+                    1 : screen_pos_display0_1 <= curr_test_char;
+                    2 : screen_pos_display0_2 <= curr_test_char;
+                    3 : screen_pos_display0_3 <= curr_test_char;
+                    4 : screen_pos_display0_4 <= curr_test_char;
+                    5 : screen_pos_display0_5 <= curr_test_char;
+                    6 : screen_pos_display0_6 <= curr_test_char;
+                    7 : screen_pos_display0_7 <= curr_test_char;
+                    8 : screen_pos_display0_8 <= curr_test_char;
+                    9 : screen_pos_display0_9 <= curr_test_char;
+                    10 : screen_pos_display0_10 <= curr_test_char;
+                    11 : screen_pos_display0_11 <= curr_test_char;
+                    12 : screen_pos_display0_12 <= curr_test_char;
 
-            // Second row
-            13 : screen_pos_display1_0 <= charDisplay;
-            14 : screen_pos_display1_1 <= charDisplay;
-            15 : screen_pos_display1_2 <= charDisplay;
-            16 : screen_pos_display1_3 <= charDisplay;
-            17 : screen_pos_display1_4 <= charDisplay;
-            18 : screen_pos_display1_5 <= charDisplay;
-            19 : screen_pos_display1_6 <= charDisplay;
-            20 : screen_pos_display1_7 <= charDisplay;
-            21 : screen_pos_display1_8 <= charDisplay;
-            22 : screen_pos_display1_9 <= charDisplay;
-            23 : screen_pos_display1_10 <= charDisplay;
-            24 : screen_pos_display1_11 <= charDisplay;
-            25 : screen_pos_display1_12 <= charDisplay;
+                    // Second row
+                    13 : screen_pos_display1_0 <= curr_test_char;
+                    14 : screen_pos_display1_1 <= curr_test_char;
+                    15 : screen_pos_display1_2 <= curr_test_char;
+                    16 : screen_pos_display1_3 <= curr_test_char;
+                    17 : screen_pos_display1_4 <= curr_test_char;
+                    18 : screen_pos_display1_5 <= curr_test_char;
+                    19 : screen_pos_display1_6 <= curr_test_char;
+                    20 : screen_pos_display1_7 <= curr_test_char;
+                    21 : screen_pos_display1_8 <= curr_test_char;
+                    22 : screen_pos_display1_9 <= curr_test_char;
+                    23 : screen_pos_display1_10 <= curr_test_char;
+                    24 : screen_pos_display1_11 <= curr_test_char;
+                    25 : screen_pos_display1_12 <= curr_test_char;
 
-            // Third row
-            26 : screen_pos_display2_0 <= charDisplay;
-            27 : screen_pos_display2_1 <= charDisplay;
-            28 : screen_pos_display2_2 <= charDisplay;
-            29 : screen_pos_display2_3 <= charDisplay;
-            30 : screen_pos_display2_4 <= charDisplay;
-            31 : screen_pos_display2_5 <= charDisplay;
-            32 : screen_pos_display2_6 <= charDisplay;
-            33 : screen_pos_display2_7 <= charDisplay;
-            34 : screen_pos_display2_8 <= charDisplay;
-            35 : screen_pos_display2_9 <= charDisplay;
-            36 : screen_pos_display2_10 <= charDisplay;
-            37 : screen_pos_display2_11 <= charDisplay;
-            38 : screen_pos_display2_12 <= charDisplay;
-            
-            // Fourth row
-            39 : screen_pos_display3_0 <= charDisplay;
-            40 : screen_pos_display3_1 <= charDisplay;
-            41 : screen_pos_display3_2 <= charDisplay;
-            42 : screen_pos_display3_3 <= charDisplay;
-            43 : screen_pos_display3_4 <= charDisplay;
-            44 : screen_pos_display3_5 <= charDisplay;
-            45 : screen_pos_display3_6 <= charDisplay;
-            46 : screen_pos_display3_7 <= charDisplay;
-            47 : screen_pos_display3_8 <= charDisplay;
-            48 : screen_pos_display3_9 <= charDisplay;
-            49 : screen_pos_display3_10 <= charDisplay;
-            50 : screen_pos_display3_11 <= charDisplay;
-            51 : screen_pos_display3_12 <= charDisplay;
-        endcase
+                    // Third row
+                    26 : screen_pos_display2_0 <= curr_test_char;
+                    27 : screen_pos_display2_1 <= curr_test_char;
+                    28 : screen_pos_display2_2 <= curr_test_char;
+                    29 : screen_pos_display2_3 <= curr_test_char;
+                    30 : screen_pos_display2_4 <= curr_test_char;
+                    31 : screen_pos_display2_5 <= curr_test_char;
+                    32 : screen_pos_display2_6 <= curr_test_char;
+                    33 : screen_pos_display2_7 <= curr_test_char;
+                    34 : screen_pos_display2_8 <= curr_test_char;
+                    35 : screen_pos_display2_9 <= curr_test_char;
+                    36 : screen_pos_display2_10 <= curr_test_char;
+                    37 : screen_pos_display2_11 <= curr_test_char;
+                    38 : screen_pos_display2_12 <= curr_test_char;
+                    
+                    // Fourth row
+                    39 : screen_pos_display3_0 <= curr_test_char;
+                    40 : screen_pos_display3_1 <= curr_test_char;
+                    41 : screen_pos_display3_2 <= curr_test_char;
+                    42 : screen_pos_display3_3 <= curr_test_char;
+                    43 : screen_pos_display3_4 <= curr_test_char;
+                    44 : screen_pos_display3_5 <= curr_test_char;
+                    45 : screen_pos_display3_6 <= curr_test_char;
+                    46 : screen_pos_display3_7 <= curr_test_char;
+                    47 : screen_pos_display3_8 <= curr_test_char;
+                    48 : screen_pos_display3_9 <= curr_test_char;
+                    49 : screen_pos_display3_10 <= curr_test_char;
+                    50 : screen_pos_display3_11 <= curr_test_char;
+                    51 : screen_pos_display3_12 <= curr_test_char;
+                endcase
+            end
+        end
     end
 
     // For display screen on top half of OLED
@@ -2927,275 +2960,20 @@ module keyboard_typer(
         end
     end
 
-    // Creating the random characters
-    always @ (clock) begin
-        // Setting of rcurrent position
-        if (test_char_pos < 51) begin
-            test_char_pos <= test_char_pos + 1;
-        end
-        else begin
-            test_char_pos <= 0;
-        end
-
-        // Setting of random character
-        case (test_char_pos)
-            // First row
-            0 : screen_pos_test0_0 <= random_number;
-            1 : screen_pos_test0_1 <= random_number;
-            2 : screen_pos_test0_2 <= random_number;
-            3 : screen_pos_test0_3 <= random_number;
-            4 : screen_pos_test0_4 <= random_number;
-            5 : screen_pos_test0_5 <= random_number;
-            6 : screen_pos_test0_6 <= random_number;
-            7 : screen_pos_test0_7 <= random_number;
-            8 : screen_pos_test0_8 <= random_number;
-            9 : screen_pos_test0_9 <= random_number;
-            10 : screen_pos_test0_10 <= random_number;
-            11 : screen_pos_test0_11 <= random_number;
-            12 : screen_pos_test0_12 <= random_number;
-
-            // Second row
-            13 : screen_pos_test1_0 <= random_number;
-            14 : screen_pos_test1_1 <= random_number;
-            15 : screen_pos_test1_2 <= random_number;
-            16 : screen_pos_test1_3 <= random_number;
-            17 : screen_pos_test1_4 <= random_number;
-            18 : screen_pos_test1_5 <= random_number;
-            19 : screen_pos_test1_6 <= random_number;
-            20 : screen_pos_test1_7 <= random_number;
-            21 : screen_pos_test1_8 <= random_number;
-            22 : screen_pos_test1_9 <= random_number;
-            23 : screen_pos_test1_10 <= random_number;
-            24 : screen_pos_test1_11 <= random_number;
-            25 : screen_pos_test1_12 <= random_number;
-
-            // Third row
-            26 : screen_pos_test2_0 <= random_number;
-            27 : screen_pos_test2_1 <= random_number;
-            28 : screen_pos_test2_2 <= random_number;
-            29 : screen_pos_test2_3 <= random_number;
-            30 : screen_pos_test2_4 <= random_number;
-            31 : screen_pos_test2_5 <= random_number;
-            32 : screen_pos_test2_6 <= random_number;
-            33 : screen_pos_test2_7 <= random_number;
-            34 : screen_pos_test2_8 <= random_number;
-            35 : screen_pos_test2_9 <= random_number;
-            36 : screen_pos_test2_10 <= random_number;
-            37 : screen_pos_test2_11 <= random_number;
-            38 : screen_pos_test2_12 <= random_number;
-            
-            // Fourth row
-            39 : screen_pos_test3_0 <= random_number;
-            40 : screen_pos_test3_1 <= random_number;
-            41 : screen_pos_test3_2 <= random_number;
-            42 : screen_pos_test3_3 <= random_number;
-            43 : screen_pos_test3_4 <= random_number;
-            44 : screen_pos_test3_5 <= random_number;
-            45 : screen_pos_test3_6 <= random_number;
-            46 : screen_pos_test3_7 <= random_number;
-            47 : screen_pos_test3_8 <= random_number;
-            48 : screen_pos_test3_9 <= random_number;
-            49 : screen_pos_test3_10 <= random_number;
-            50 : screen_pos_test3_11 <= random_number;
-            51 : screen_pos_test3_12 <= random_number;
-        endcase
-
-    end
-
-    // For showing the randomly generated characters 
-    always @ (posedge clock_1Hz) begin
-        if (screen_pos_0_0_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_0 ,3,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_1_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_1,10,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_2_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_2,17,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_3_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_3,24,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_4_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_4,31,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_5_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_5,38,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_6_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_6,45,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_7_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_7,52,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_8_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_8,59,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_9_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_9,66,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_10_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_10,73,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_11_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_11,80,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_12_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test0_12,87,5,x_pos,y_pos);
-        end
-
-        else if (screen_pos_1_0_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_0,3,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_1_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_1,10,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_2_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_2,17,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_3_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_3,24,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_4_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_4,31,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_5_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_5,38,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_6_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_6,45,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_7_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_7,52,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_8_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_8,59,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_9_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_9,66,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_10_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_10,73,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_11_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_11,80,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_12_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test1_12,87,12,x_pos,y_pos);
-        end
-
-        else if (screen_pos_2_0_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_0,3,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_1_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_1,10,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_2_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_2,17,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_3_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_3,24,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_4_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_4,31,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_5_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_5,38,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_6_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_6,45,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_7_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_7,52,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_8_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_8,59,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_9_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_9,66,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_10_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_10,73,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_11_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_11,80,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_12_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test2_12,87,19,x_pos,y_pos);
-        end
-
-        else if (screen_pos_3_0_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_0,3,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_1_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_1,10,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_2_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_2,17,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_3_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_3,24,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_4_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_4,31,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_5_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_5,38,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_6_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_6,45,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_7_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_7,52,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_8_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_8,59,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_9_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_9,66,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_10_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_10,73,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_11_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_11,80,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_12_border) begin
-            topHalfTestDisplay <= displayChar(screen_pos_test3_12,87,26,x_pos,y_pos);
-        end
-
-        else begin
-            topHalfDisplay <= BACKGROUND_COLOR;
-        end
-    end
-
     // Controlling of OLED display
     always @ (*) begin
-        if (state == NORMAL_MODE) begin
-            if (mouse_pos) begin
-                pixel_data = RED;
-            end
-
-            else if (topHalf) begin
-                pixel_data <= topHalfDisplay;
-            end
-
-            else if (bottomHalf) begin
-                pixel_data <= bottomHalfDisplay;
-            end
+        if (mouse_pos) begin
+            pixel_data = RED;
         end
-        else if (state == TEST_MODE) begin
-            if (mouse_pos) begin
-                pixel_data = RED;
-            end
-
-            else if (topHalf) begin
-                pixel_data <= topHalfTestDisplay;
-            end
-
-            else if (bottomHalf) begin
-                pixel_data <= bottomHalfDisplay;
-            end
+        else if (bottomHalf) begin
+            pixel_data = bottomHalfDisplay;
+        end
+        else if (topHalf) begin
+            // pixel_data = (state) ? topHalfDisplay : topHalfDisplay;
+            pixel_data = topHalfDisplay;
+        end
+        else begin
+            pixel_data = BACKGROUND_COLOR;
         end
     end
 endmodule
