@@ -23,7 +23,6 @@
 module keyboard_typer(
     input clock,
     input clock_1Hz,
-    input clock_190Hz,
     output reg [1:0] debug_led = 0,
     input [15:0] sw,
     input [12:0] pixel_index,
@@ -136,58 +135,58 @@ module keyboard_typer(
     assign bottomHalf = (y_pos >= 31);
 
     // For checking if each position is filled in normal mode
-    reg [15:0] screen_pos_display0_0 = CHARDISPLAY_WAITING;
-    reg [15:0] screen_pos_display0_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display0_12 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_0 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display1_12 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_0 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display2_12 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_0 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_1 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_2 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_3 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_4 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_5 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_6 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_7 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_8 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_9 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_10 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_11 = CHARDISPLAY_NULL;
-    reg [15:0] screen_pos_display3_12 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_0 = CHARDISPLAY_WAITING;
+    reg [5:0] screen_pos_display0_1 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_2 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_3 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_4 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_5 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_6 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_7 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_8 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_9 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_10 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_11 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display0_12 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_0 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_1 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_2 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_3 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_4 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_5 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_6 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_7 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_8 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_9 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_10 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_11 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display1_12 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_0 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_1 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_2 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_3 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_4 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_5 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_6 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_7 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_8 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_9 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_10 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_11 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display2_12 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_0 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_1 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_2 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_3 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_4 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_5 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_6 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_7 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_8 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_9 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_10 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_11 = CHARDISPLAY_NULL;
+    reg [5:0] screen_pos_display3_12 = CHARDISPLAY_NULL;
 
     // For checking if each position is filled
     assign screen_pos_0_0_border = (x_pos >= 3 && x_pos <= 7) && (y_pos >= 1 && y_pos <= 5);
@@ -2413,12 +2412,14 @@ module keyboard_typer(
             end
         end
 
-        else if (state == TEST_MODE) begin
-            if (!test_ready && (curr_test_char != prev_test_char)) begin
+        // Loading of random characters
+        else if ((state == TEST_MODE) && !test_ready) begin
+            if (curr_test_char != prev_test_char) begin
                 if (test_char_pos < 51) begin
                     test_char_pos <= test_char_pos + 1;
                 end
                 else begin
+                    curr_test_char <= 0;
                     test_ready <= 1;
                     test_char_pos <= 0;
                 end
@@ -2426,11 +2427,17 @@ module keyboard_typer(
             prev_test_char <= curr_test_char;
             curr_test_char <= random_number;
         end
+
+        else if ((state == TEST_MODE) && test_ready) begin
+            if (canDisplay) begin
+                curr_test_char <= charDisplay;
+            end
+        end
     end
 
     // Registering current position of screen display cursor
     always @ (posedge clock) begin
-        if (state == NORMAL_MODE) begin
+        if ((state == NORMAL_MODE) || ((state == TEST_MODE) && test_ready)) begin
             if (charDisplay == CHARDISPLAY_CLEAR) begin
                 screen_pos_display0_0 <= CHARDISPLAY_WAITING;
                 screen_pos_display0_1 <= CHARDISPLAY_NULL;
@@ -2623,164 +2630,176 @@ module keyboard_typer(
     // For display screen on top half of OLED
     reg[15:0] topHalfDisplay = 0;
     always @ (*) begin
-        if (screen_pos_0_0_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_0,3,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_1_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_1,10,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_2_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_2,17,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_3_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_3,24,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_4_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_4,31,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_5_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_5,38,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_6_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_6,45,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_7_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_7,52,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_8_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_8,59,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_9_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_9,66,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_10_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_10,73,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_11_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_11,80,5,x_pos,y_pos);
-        end
-        else if (screen_pos_0_12_border) begin
-            topHalfDisplay = displayChar(screen_pos_display0_12,87,5,x_pos,y_pos);
-        end
+        if (state == NORMAL_MODE) begin
+            if (screen_pos_0_0_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_0,3,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_1_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_1,10,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_2_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_2,17,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_3_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_3,24,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_4_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_4,31,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_5_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_5,38,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_6_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_6,45,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_7_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_7,52,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_8_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_8,59,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_9_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_9,66,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_10_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_10,73,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_11_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_11,80,5,x_pos,y_pos);
+            end
+            else if (screen_pos_0_12_border) begin
+                topHalfDisplay = displayChar(screen_pos_display0_12,87,5,x_pos,y_pos);
+            end
 
-        else if (screen_pos_1_0_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_0,3,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_1_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_1,10,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_2_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_2,17,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_3_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_3,24,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_4_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_4,31,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_5_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_5,38,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_6_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_6,45,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_7_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_7,52,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_8_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_8,59,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_9_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_9,66,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_10_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_10,73,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_11_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_11,80,12,x_pos,y_pos);
-        end
-        else if (screen_pos_1_12_border) begin
-            topHalfDisplay = displayChar(screen_pos_display1_12,87,12,x_pos,y_pos);
-        end
+            else if (screen_pos_1_0_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_0,3,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_1_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_1,10,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_2_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_2,17,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_3_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_3,24,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_4_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_4,31,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_5_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_5,38,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_6_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_6,45,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_7_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_7,52,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_8_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_8,59,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_9_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_9,66,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_10_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_10,73,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_11_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_11,80,12,x_pos,y_pos);
+            end
+            else if (screen_pos_1_12_border) begin
+                topHalfDisplay = displayChar(screen_pos_display1_12,87,12,x_pos,y_pos);
+            end
 
-        else if (screen_pos_2_0_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_0,3,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_1_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_1,10,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_2_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_2,17,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_3_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_3,24,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_4_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_4,31,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_5_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_5,38,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_6_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_6,45,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_7_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_7,52,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_8_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_8,59,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_9_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_9,66,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_10_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_10,73,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_11_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_11,80,19,x_pos,y_pos);
-        end
-        else if (screen_pos_2_12_border) begin
-            topHalfDisplay = displayChar(screen_pos_display2_12,87,19,x_pos,y_pos);
-        end
+            else if (screen_pos_2_0_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_0,3,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_1_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_1,10,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_2_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_2,17,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_3_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_3,24,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_4_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_4,31,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_5_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_5,38,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_6_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_6,45,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_7_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_7,52,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_8_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_8,59,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_9_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_9,66,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_10_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_10,73,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_11_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_11,80,19,x_pos,y_pos);
+            end
+            else if (screen_pos_2_12_border) begin
+                topHalfDisplay = displayChar(screen_pos_display2_12,87,19,x_pos,y_pos);
+            end
 
-        else if (screen_pos_3_0_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_0,3,26,x_pos,y_pos);
+            else if (screen_pos_3_0_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_0,3,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_1_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_1,10,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_2_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_2,17,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_3_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_3,24,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_4_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_4,31,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_5_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_5,38,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_6_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_6,45,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_7_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_7,52,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_8_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_8,59,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_9_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_9,66,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_10_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_10,73,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_11_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_11,80,26,x_pos,y_pos);
+            end
+            else if (screen_pos_3_12_border) begin
+                topHalfDisplay = displayChar(screen_pos_display3_12,87,26,x_pos,y_pos);
+            end
         end
-        else if (screen_pos_3_1_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_1,10,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_2_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_2,17,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_3_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_3,24,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_4_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_4,31,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_5_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_5,38,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_6_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_6,45,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_7_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_7,52,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_8_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_8,59,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_9_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_9,66,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_10_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_10,73,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_11_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_11,80,26,x_pos,y_pos);
-        end
-        else if (screen_pos_3_12_border) begin
-            topHalfDisplay = displayChar(screen_pos_display3_12,87,26,x_pos,y_pos);
+        else if (state == TEST_MODE) begin
+            if (screen_pos_0_0_border) begin
+                if (curr_test_char >= 0) begin
+                    topHalfDisplay = (curr_test_char == screen_pos_display0_0) ? GREEN : RED;
+                end
+                else begin
+                    topHalfDisplay = displayChar(screen_pos_display0_0,3,12,x_pos,y_pos);
+                end
+            end
         end
 
         else begin

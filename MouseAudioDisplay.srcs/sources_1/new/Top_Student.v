@@ -212,7 +212,6 @@ module Top_Student (
     keyboard_typer keyboard_typer_k(
         .clock(clk_20kHz),
         .clock_1Hz(clk_1Hz),
-        .clock_190Hz(clk_190Hz),
         .debug_led(debug_led),
         .sw(sw),
         .pixel_index(pixel_index),
@@ -223,6 +222,7 @@ module Top_Student (
         .diff_x(diff_x),
         .diff_y(diff_y),
         .random_number(random_number),
+        .cursor_size(task_K_cursor_size),
         .pixel_data(task_K_pixel_data)        
     );
  
