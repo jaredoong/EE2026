@@ -32,9 +32,28 @@ module keyboard_typer(
     input [6:0] cursor_y,
     input [6:0] diff_x,
     input [6:0] diff_y,
+    // input [5:0] random_number,
     output reg [3:0] cursor_size = 2,
     output reg [15:0] pixel_data = 0
     );
+
+    // State machine states
+    localparam NORMAL_MODE = 0;
+    localparam TEST_MODE = 1;
+    reg state = NORMAL_MODE;
+    reg [15:0] topHalfTestDisplay = 0;
+
+
+    // To be deleted
+    assign random_number = 5;
+
+    // For selecting the 2 modes
+    always @ (*) begin
+        case(sw[0])
+            1'b0: state = NORMAL_MODE;
+            1'b1: state = TEST_MODE;
+        endcase
+    end 
 
     localparam CHARDISPLAY_A = 1;
     localparam CHARDISPLAY_B = 2;
@@ -95,6 +114,7 @@ module keyboard_typer(
     parameter DISPLAYCHAR_COLOUR = WHITE;
     parameter BACKGROUND_COLOR = BLACK;
 
+    reg [5:0] test_char_pos = 0;
     reg [5:0] char_pos = 0;
 
     wire [6:0] x_pos;
@@ -113,7 +133,7 @@ module keyboard_typer(
     assign topHalf = (y_pos < 31);
     assign bottomHalf = (y_pos >= 31);
 
-    // For checking if each position is filled
+    // For checking if each position is filled in normal mode
     reg [15:0] screen_pos_display0_0 = CHARDISPLAY_WAITING;
     reg [15:0] screen_pos_display0_1 = CHARDISPLAY_NULL;
     reg [15:0] screen_pos_display0_2 = CHARDISPLAY_NULL;
@@ -166,6 +186,60 @@ module keyboard_typer(
     reg [15:0] screen_pos_display3_10 = CHARDISPLAY_NULL;
     reg [15:0] screen_pos_display3_11 = CHARDISPLAY_NULL;
     reg [15:0] screen_pos_display3_12 = CHARDISPLAY_NULL;
+
+    // For displaying each character in test mode
+    reg [15:0] screen_pos_test0_0 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_1 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_2 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_3 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_4 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_5 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_6 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_7 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_8 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_9 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_10 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_11 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test0_12 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_0 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_1 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_2 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_3 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_4 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_5 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_6 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_7 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_8 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_9 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_10 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_11 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test1_12 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_0 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_1 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_2 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_3 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_4 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_5 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_6 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_7 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_8 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_9 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_10 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_11 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test2_12 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_0 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_1 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_2 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_3 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_4 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_5 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_6 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_7 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_8 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_9 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_10 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_11 = CHARDISPLAY_NULL;
+    reg [15:0] screen_pos_test3_12 = CHARDISPLAY_NULL;
 
     // For checking if each position is filled
     assign screen_pos_0_0_border = (x_pos >= 3 && x_pos <= 7) && (y_pos >= 1 && y_pos <= 5);
@@ -2853,18 +2927,275 @@ module keyboard_typer(
         end
     end
 
+    // Creating the random characters
+    always @ (clock) begin
+        // Setting of rcurrent position
+        if (test_char_pos < 51) begin
+            test_char_pos <= test_char_pos + 1;
+        end
+        else begin
+            test_char_pos <= 0;
+        end
+
+        // Setting of random character
+        case (test_char_pos)
+            // First row
+            0 : screen_pos_test0_0 <= random_number;
+            1 : screen_pos_test0_1 <= random_number;
+            2 : screen_pos_test0_2 <= random_number;
+            3 : screen_pos_test0_3 <= random_number;
+            4 : screen_pos_test0_4 <= random_number;
+            5 : screen_pos_test0_5 <= random_number;
+            6 : screen_pos_test0_6 <= random_number;
+            7 : screen_pos_test0_7 <= random_number;
+            8 : screen_pos_test0_8 <= random_number;
+            9 : screen_pos_test0_9 <= random_number;
+            10 : screen_pos_test0_10 <= random_number;
+            11 : screen_pos_test0_11 <= random_number;
+            12 : screen_pos_test0_12 <= random_number;
+
+            // Second row
+            13 : screen_pos_test1_0 <= random_number;
+            14 : screen_pos_test1_1 <= random_number;
+            15 : screen_pos_test1_2 <= random_number;
+            16 : screen_pos_test1_3 <= random_number;
+            17 : screen_pos_test1_4 <= random_number;
+            18 : screen_pos_test1_5 <= random_number;
+            19 : screen_pos_test1_6 <= random_number;
+            20 : screen_pos_test1_7 <= random_number;
+            21 : screen_pos_test1_8 <= random_number;
+            22 : screen_pos_test1_9 <= random_number;
+            23 : screen_pos_test1_10 <= random_number;
+            24 : screen_pos_test1_11 <= random_number;
+            25 : screen_pos_test1_12 <= random_number;
+
+            // Third row
+            26 : screen_pos_test2_0 <= random_number;
+            27 : screen_pos_test2_1 <= random_number;
+            28 : screen_pos_test2_2 <= random_number;
+            29 : screen_pos_test2_3 <= random_number;
+            30 : screen_pos_test2_4 <= random_number;
+            31 : screen_pos_test2_5 <= random_number;
+            32 : screen_pos_test2_6 <= random_number;
+            33 : screen_pos_test2_7 <= random_number;
+            34 : screen_pos_test2_8 <= random_number;
+            35 : screen_pos_test2_9 <= random_number;
+            36 : screen_pos_test2_10 <= random_number;
+            37 : screen_pos_test2_11 <= random_number;
+            38 : screen_pos_test2_12 <= random_number;
+            
+            // Fourth row
+            39 : screen_pos_test3_0 <= random_number;
+            40 : screen_pos_test3_1 <= random_number;
+            41 : screen_pos_test3_2 <= random_number;
+            42 : screen_pos_test3_3 <= random_number;
+            43 : screen_pos_test3_4 <= random_number;
+            44 : screen_pos_test3_5 <= random_number;
+            45 : screen_pos_test3_6 <= random_number;
+            46 : screen_pos_test3_7 <= random_number;
+            47 : screen_pos_test3_8 <= random_number;
+            48 : screen_pos_test3_9 <= random_number;
+            49 : screen_pos_test3_10 <= random_number;
+            50 : screen_pos_test3_11 <= random_number;
+            51 : screen_pos_test3_12 <= random_number;
+        endcase
+
+    end
+
+    // For showing the randomly generated characters 
+    always @ (posedge clock_1Hz) begin
+        if (screen_pos_0_0_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_0 ,3,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_1_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_1,10,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_2_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_2,17,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_3_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_3,24,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_4_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_4,31,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_5_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_5,38,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_6_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_6,45,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_7_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_7,52,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_8_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_8,59,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_9_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_9,66,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_10_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_10,73,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_11_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_11,80,5,x_pos,y_pos);
+        end
+        else if (screen_pos_0_12_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test0_12,87,5,x_pos,y_pos);
+        end
+
+        else if (screen_pos_1_0_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_0,3,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_1_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_1,10,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_2_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_2,17,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_3_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_3,24,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_4_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_4,31,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_5_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_5,38,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_6_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_6,45,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_7_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_7,52,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_8_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_8,59,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_9_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_9,66,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_10_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_10,73,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_11_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_11,80,12,x_pos,y_pos);
+        end
+        else if (screen_pos_1_12_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test1_12,87,12,x_pos,y_pos);
+        end
+
+        else if (screen_pos_2_0_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_0,3,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_1_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_1,10,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_2_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_2,17,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_3_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_3,24,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_4_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_4,31,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_5_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_5,38,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_6_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_6,45,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_7_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_7,52,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_8_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_8,59,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_9_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_9,66,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_10_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_10,73,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_11_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_11,80,19,x_pos,y_pos);
+        end
+        else if (screen_pos_2_12_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test2_12,87,19,x_pos,y_pos);
+        end
+
+        else if (screen_pos_3_0_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_0,3,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_1_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_1,10,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_2_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_2,17,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_3_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_3,24,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_4_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_4,31,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_5_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_5,38,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_6_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_6,45,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_7_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_7,52,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_8_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_8,59,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_9_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_9,66,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_10_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_10,73,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_11_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_11,80,26,x_pos,y_pos);
+        end
+        else if (screen_pos_3_12_border) begin
+            topHalfTestDisplay <= displayChar(screen_pos_test3_12,87,26,x_pos,y_pos);
+        end
+
+        else begin
+            topHalfDisplay <= BACKGROUND_COLOR;
+        end
+    end
+
     // Controlling of OLED display
     always @ (*) begin
-        if (mouse_pos) begin
-            pixel_data = RED;
-        end
+        if (state == NORMAL_MODE) begin
+            if (mouse_pos) begin
+                pixel_data = RED;
+            end
 
-        else if (topHalf) begin
-            pixel_data <= topHalfDisplay;
-        end
+            else if (topHalf) begin
+                pixel_data <= topHalfDisplay;
+            end
 
-        else if (bottomHalf) begin
-            pixel_data <= bottomHalfDisplay;
+            else if (bottomHalf) begin
+                pixel_data <= bottomHalfDisplay;
+            end
+        end
+        else if (state == TEST_MODE) begin
+            if (mouse_pos) begin
+                pixel_data = RED;
+            end
+
+            else if (topHalf) begin
+                pixel_data <= topHalfTestDisplay;
+            end
+
+            else if (bottomHalf) begin
+                pixel_data <= bottomHalfDisplay;
+            end
         end
     end
 endmodule

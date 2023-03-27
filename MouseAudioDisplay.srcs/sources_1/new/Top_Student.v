@@ -91,7 +91,6 @@ module Top_Student (
     wire [3:0] task_K_cursor_size;
     wire [15:0] task_K_pixel_data;
 
-
     // Startup menu display
     wire [15:0] startup_menu_pixel_data;
     wire [3:0] menu_cursor_size;
@@ -114,6 +113,9 @@ module Top_Student (
 
     // Common audio output
     reg [11:0] audio_out;
+    
+    // RNG
+    wire [5:0] random_number;
 
     // Others
     wire [3:0] stage;
@@ -219,8 +221,9 @@ module Top_Student (
         .cursor_y(cursor_y),
         .diff_x(diff_x),
         .diff_y(diff_y),
+        // .random_number(random_number),
         .cursor_size(task_K_cursor_size),
-        .pixel_data(task_K_pixel_data)
+        .pixel_data(task_K_pixel_data)        
     );
  
     // Startup menu display
@@ -312,6 +315,12 @@ module Top_Student (
         .CLK_OUT(JXADC[3]), 
         .DATA2()
     );
+
+    // // Random number generator for keyboard monkeytype
+    // random_number_generator rng(
+    //     .basys3_clock(basys3_clock),
+    //     .random_number(random_number)
+    // );
 
     always @ (*) begin
         case (stage)
