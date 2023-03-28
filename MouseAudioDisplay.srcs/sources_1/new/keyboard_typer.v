@@ -32,6 +32,7 @@ module keyboard_typer(
     input [6:0] cursor_y,
     input [6:0] diff_x,
     input [6:0] diff_y,
+    input [15:0] rgb_lights,
     output reg [3:0] cursor_size = 2,
     output reg [15:0] pixel_data = 0
     );
@@ -89,7 +90,9 @@ module keyboard_typer(
     localparam MAGENTA = 16'hF81F;
     localparam ORANGE = 16'hFC00;
 
-    parameter KEYBOARD_COLOUR = WHITE;
+    wire [15:0] KEYBOARD_COLOUR;
+    assign KEYBOARD_COLOUR = (sw[2]) ? rgb_lights : WHITE;
+
     parameter HOVER_COLOURED = GREEN;
     parameter HOVER_NOT_COLOURED = WHITE;
     parameter DISPLAYCHAR_COLOUR = WHITE;

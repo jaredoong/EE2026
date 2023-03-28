@@ -90,7 +90,7 @@ module Top_Student (
     wire task_K_right_click;
     wire [3:0] task_K_cursor_size;
     wire [15:0] task_K_pixel_data;
-
+    wire [15:0] lights_pixel_data;
 
     // Startup menu display
     wire [15:0] startup_menu_pixel_data;
@@ -219,8 +219,15 @@ module Top_Student (
         .cursor_y(cursor_y),
         .diff_x(diff_x),
         .diff_y(diff_y),
+        .rgb_lights(lights_pixel_data),
         .cursor_size(task_K_cursor_size),
         .pixel_data(task_K_pixel_data)
+    );
+
+    // Fading lights
+    fading_colors rgb_lights(
+        .clk(clock_6p25mhz),
+        .pixel_data(lights_pixel_data)
     );
  
     // Startup menu display
