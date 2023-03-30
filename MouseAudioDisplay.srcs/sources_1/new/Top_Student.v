@@ -38,9 +38,16 @@ module Top_Student (
     localparam task_D = 4'b0011;
     localparam task_G = 4'b0100;
     localparam task_K = 4'b0101;
+    localparam task_M = 4'b0110;
+    localparam task_F = 4'b0111;
+    localparam task_P = 4'b1000;
+    localparam task_I = 4'b1001;
+    
     localparam menu = 4'b1111;
 
     // Clk signals
+    wire clk_1Hz;
+    wire clk_5Hz;
     wire clk_1kHz;
     wire clk_20kHz;
     wire clk_190Hz;
@@ -95,6 +102,8 @@ module Top_Student (
     // Startup menu display
     wire [15:0] startup_menu_pixel_data;
     wire [3:0] menu_cursor_size;
+    wire menu_left_click;
+    wire menu_right_click;
 
     // Common Mouse control
     wire[11:0] mouse_x, mouse_y;
@@ -118,8 +127,10 @@ module Top_Student (
     // Others
     wire [3:0] stage;
     reg [3:0] curr_task = 0;
+    wire [5:0] random_number;
 
     clock_divider clk1Hz(basys3_clock,1, clk_1Hz);
+    clock_divider clk10Hz(basys3_clock,5, clk_5Hz);
     clock_divider clk20kHz(basys3_clock,20_000, clk_20kHz);
     clock_divider clk190Hz(basys3_clock,190, clk_190Hz);
     clock_divider clk380Hz(basys3_clock,380, clk_380Hz);
@@ -210,6 +221,7 @@ module Top_Student (
     keyboard_typer keyboard_typer_k(
         .clock(clk_20kHz),
         .clock_1Hz(clk_1Hz),
+        .btnC_debounce(btnC_debounce),
         .debug_led(debug_led),
         .sw(sw),
         .pixel_index(pixel_index),
@@ -219,6 +231,7 @@ module Top_Student (
         .cursor_y(cursor_y),
         .diff_x(diff_x),
         .diff_y(diff_y),
+        .rand_num(random_number),
         .rgb_lights(lights_pixel_data),
         .cursor_size(task_K_cursor_size),
         .pixel_data(task_K_pixel_data)
@@ -320,6 +333,92 @@ module Top_Student (
         .DATA2()
     );
 
+    // Random number generator for keyboard monkeytype
+    rng rng36(
+        .clk(clk_5Hz),
+        .rand_num(random_number)
+    );
+
+    // *************** Start of Metronome ***************
+    wire [15:0] metronome_pixel_data;
+    wire [11:0] metronome_audio_out;
+    wire [3:0] metronome_an;
+    wire [6:0] metronome_seg;
+    wire [3:0] metronome_cursor_size;
+    
+    metronome start_metronome(.basys3_clock(basys3_clock),
+        .btnU(btnU_debounce), .btnD(btnD_debounce), .left_click(left_click_debounce),
+        .pixel_x(pixel_x), .pixel_y(pixel_y), .cursor_x(cursor_x), .cursor_y(cursor_y),
+        .sw(sw), .pixel_data(metronome_pixel_data), .audio_out(metronome_audio_out),
+        .an(metronome_an), .seg(metronome_seg), .cursor_size(metronome_cursor_size));
+
+    // *************** End of Metronome ***************
+
+
+    // *************** Start of Frequency Detector ***************
+    wire [2:0] freq_generator_range;
+    wire [31:0] freq;
+    wire [15:0] LEDFREQ;
+    wire [3:0] an_freq;
+    wire [6:0] seg_freq;
+
+    freq_detector freq_detect(
+    .CLOCK_20KHZ(clk_20khz),
+    .curr_audio(curr_Audio),
+    .led(LEDFREQ),
+    .freq(freq),
+    .M(4000),
+    .freq_range(freq_generator_range)
+    );
+    
+    disp_freq display(
+    .CLOCK(CLOCK_100MHZ),
+    .sound_freq(freq),
+    .disp_mode(sw[10]),
+    .an(an_freq),
+    .seg(seg_freq)
+    );
+    
+    wire freq_abv;
+    freq_callibration callibration(
+    .CLOCK_100MHZ(CLOCK_100MHZ),
+    .CLOCK_20KHZ(clk_20khz),
+    .callibration_mode(sw[1]),
+    .MIC_in(curr_Audio),
+    .freq_abv(freq_abv)
+    );
+
+    reg [15:0] led_f = 0;
+    always @ (posedge basys3_clock) begin
+        led_f[0] <= freq_abv;
+        led_f[1] <= sw[1];
+        led_f[15:2] <= LEDFREQ;
+    end
+
+    // *************** End of Frequency Detector ***************
+
+    // *************** Start of FFT group portion ***************
+
+    wire [15:0] fft_pixel_data;
+    fft_bars fftbars(
+        .basys3_clock(basys3_clock),
+        .sampling_rate(clk_20kHz),
+        .curr_Audio(curr_Audio),
+        .sw(sw),
+        .left_click(left_click),
+        .right_click(right_click),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_size(cursor_size),
+        .pixel_index(pixel_index),
+        .pixel_data(fft_pixel_data)
+    );
+
+    // *************** End of FFT group portion ***************
+
+
     always @ (*) begin
         case (stage)
             4'b1111 : curr_task = menu;
@@ -329,6 +428,8 @@ module Top_Student (
             4'b0100 : curr_task = task_D;
             4'b0101 : curr_task = task_G;
             4'b0110 : curr_task = task_K;
+            4'b0111 : curr_task = task_M;
+            4'b1000 : curr_task = task_F;
         endcase
 
         // Control OLED display based on current task
@@ -338,6 +439,8 @@ module Top_Student (
             task_D : pixel_data = task_D_pixel_data;
             task_G : pixel_data = task_G_pixel_data;
             task_K : pixel_data = task_K_pixel_data;
+            task_M : pixel_data = metronome_pixel_data;
+            task_I : pixel_data = fft_pixel_data;
         default : pixel_data = BLACK;
         endcase
 
@@ -364,6 +467,10 @@ module Top_Student (
                         led[15:2] = 15'b000000000000000;
                         led[1:0] = debug_led;
                     end
+
+            task_F : begin
+                        led[15:0] = led_f;
+            end
         default : led[15:0] = 16'b0000000000000000;
         endcase
 
@@ -387,6 +494,18 @@ module Top_Student (
                 dp = task_G_dp;
             end
 
+            task_M : begin
+                an = metronome_an;
+                seg = metronome_seg;
+                dp = 1'b1;
+            end
+
+            task_F : begin
+                an = an_freq;
+                seg = seg_freq;
+                dp = 1'b1;
+            end
+
         default : begin
             an = 4'b1111;
             seg = 7'b1111111;
@@ -398,6 +517,7 @@ module Top_Student (
         case (curr_task)
             task_B : audio_out = task_B_audio_out;
             task_G : audio_out = task_G_audio_out;
+            task_M : audio_out = metronome_audio_out;
         default : audio_out = 0;
         endcase
 
@@ -407,6 +527,7 @@ module Top_Student (
             task_C : cursor_size = task_C_cursor_size;
             task_G : cursor_size = task_G_cursor_size;
             task_K : cursor_size = task_K_cursor_size;
+            task_M : cursor_size = metronome_cursor_size;
         endcase
     end
 endmodule

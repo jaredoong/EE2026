@@ -23,6 +23,7 @@
 module keyboard_typer(
     input clock,
     input clock_1Hz,
+    input btnC_debounce,
     output reg [1:0] debug_led = 0,
     input [15:0] sw,
     input [12:0] pixel_index,
@@ -32,10 +33,27 @@ module keyboard_typer(
     input [6:0] cursor_y,
     input [6:0] diff_x,
     input [6:0] diff_y,
+    input [5:0] rand_num,
     input [15:0] rgb_lights,
     output reg [3:0] cursor_size = 2,
     output reg [15:0] pixel_data = 0
     );
+
+    localparam MANUAL_MODE = 0;
+    localparam AUTO_MODE = 1;
+    reg [5:0] prev_test_char = 0;
+    reg [5:0] curr_test_char = 0;
+    reg state = MANUAL_MODE;
+    reg [11:0] rand_num_counter = 0;
+    reg auto_init = 0;
+
+    // For selecting the 2 modes
+    always @ (posedge clock) begin
+        case(sw[0])
+            1'b0: state <= MANUAL_MODE;
+            1'b1: state <= AUTO_MODE;
+        endcase
+    end
 
     localparam CHARDISPLAY_A = 1;
     localparam CHARDISPLAY_B = 2;
@@ -2192,204 +2210,220 @@ module keyboard_typer(
     reg [5:0] charDisplay = CHARDISPLAY_WAITING;
 
     always @ (posedge clock) begin
-        if (~left_click) begin 
-            canDisplay <= 1;
-        end
+        if (state == MANUAL_MODE) begin // manual typing mode
+            if (~left_click) begin 
+                canDisplay <= 1;
+            end
 
-        if ((charDisplay != CHARDISPLAY_WAITING) && (charDisplay != CHARDISPLAY_NULL)) begin
-            case (charDisplay)
-                CHARDISPLAY_BACKSPACE: begin
-                    if (char_pos > 0) begin
-                        char_pos <= char_pos - 1;
-                    end else begin
-                        char_pos <= 51;
+            if ((charDisplay != CHARDISPLAY_WAITING) && (charDisplay != CHARDISPLAY_NULL)) begin
+                case (charDisplay)
+                    CHARDISPLAY_BACKSPACE: begin
+                        if (char_pos > 0) begin
+                            char_pos <= char_pos - 1;
+                        end else begin
+                            char_pos <= 51;
+                        end
                     end
-                end
 
-                CHARDISPLAY_ENTER : begin
-                    if (char_pos <= 38) begin
-                        char_pos <= char_pos + 13;
-                    end else begin
-                        char_pos <= char_pos - 39;
+                    CHARDISPLAY_ENTER : begin
+                        if (char_pos <= 38) begin
+                            char_pos <= char_pos + 13;
+                        end else begin
+                            char_pos <= char_pos - 39;
+                        end
                     end
-                end
 
-                CHARDISPLAY_CLEAR : begin
-                    char_pos <= 0;
-                end
-
-                default : begin
-                    if (char_pos < 51) begin
-                        char_pos <= char_pos + 1;
-                    end
-                    else begin
+                    CHARDISPLAY_CLEAR : begin
                         char_pos <= 0;
                     end
+
+                    default : begin
+                        if (char_pos < 51) begin
+                            char_pos <= char_pos + 1;
+                        end
+                        else begin
+                            char_pos <= 0;
+                        end
+                    end
+                endcase
+
+                charDisplay <= CHARDISPLAY_WAITING; 
+            end
+
+            if (letter_A_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_A;
+            end
+            else if (letter_B_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_B;
+            end
+            else if (letter_C_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_C;
+            end
+            else if (letter_D_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_D;
+            end
+            else if (letter_E_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_E;
+            end
+            else if (letter_F_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_F;
+            end
+            else if (letter_G_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_G;
+            end
+            else if (letter_H_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_H;
+            end
+            else if (letter_I_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_I;
+            end
+            else if (letter_J_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_J;
+            end
+            else if (letter_K_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_K;
+            end
+            else if (letter_L_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_L;
+            end
+            else if (letter_M_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_M;
+            end
+            else if (letter_N_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_N;
+            end
+            else if (letter_O_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_O;
+            end
+            else if (letter_P_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_P;
+            end
+            else if (letter_Q_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_Q;
+            end
+            else if (letter_R_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_R;
+            end
+            else if (letter_S_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_S;
+            end
+            else if (letter_T_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_T;
+            end
+            else if (letter_U_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_U;
+            end
+            else if (letter_V_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_V;
+            end
+            else if (letter_W_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_W;
+            end
+            else if (letter_X_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_X;
+            end
+            else if (letter_Y_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_Y;
+            end
+            else if (letter_Z_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_Z;
+            end
+            else if (number_0_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_0;
+            end
+            else if (number_1_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_1;
+            end
+            else if (number_2_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_2;
+            end
+            else if (number_3_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_3;
+            end
+            else if (number_4_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_4;
+            end
+            else if (number_5_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_5;
+            end
+            else if (number_6_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_6;
+            end
+            else if (number_7_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_7;
+            end
+            else if (number_8_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_8;
+            end
+            else if (number_9_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_9;
+            end
+            else if (spacebar_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_SPACEBAR;
+            end
+            else if (del_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_BACKSPACE;
+            end
+            else if (enter_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_ENTER;
+            end
+            else if (clear_hover && left_click && canDisplay) begin
+                canDisplay <= 0;
+                charDisplay <= CHARDISPLAY_CLEAR;
+            end
+        end
+        
+        else if (state == AUTO_MODE) begin
+            rand_num_counter <= (rand_num_counter < 4000) ? rand_num_counter + 1 : 0;
+            if ((rand_num_counter == 0) && (btnC_debounce || sw[1])) begin
+                charDisplay <= rand_num;
+                
+                if (charDisplay == CHARDISPLAY_WAITING) begin
+                    char_pos <= char_pos;
                 end
-            endcase
-
-            charDisplay <= CHARDISPLAY_WAITING; 
-        end
-
-        if (letter_A_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_A;
-        end
-        else if (letter_B_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_B;
-        end
-        else if (letter_C_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_C;
-        end
-        else if (letter_D_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_D;
-        end
-        else if (letter_E_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_E;
-        end
-        else if (letter_F_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_F;
-        end
-        else if (letter_G_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_G;
-        end
-        else if (letter_H_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_H;
-        end
-        else if (letter_I_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_I;
-        end
-        else if (letter_J_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_J;
-        end
-        else if (letter_K_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_K;
-        end
-        else if (letter_L_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_L;
-        end
-        else if (letter_M_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_M;
-        end
-        else if (letter_N_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_N;
-        end
-        else if (letter_O_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_O;
-        end
-        else if (letter_P_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_P;
-        end
-        else if (letter_Q_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_Q;
-        end
-        else if (letter_R_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_R;
-        end
-        else if (letter_S_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_S;
-        end
-        else if (letter_T_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_T;
-        end
-        else if (letter_U_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_U;
-        end
-        else if (letter_V_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_V;
-        end
-        else if (letter_W_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_W;
-        end
-        else if (letter_X_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_X;
-        end
-        else if (letter_Y_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_Y;
-        end
-        else if (letter_Z_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_Z;
-        end
-        else if (number_0_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_0;
-        end
-        else if (number_1_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_1;
-        end
-        else if (number_2_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_2;
-        end
-        else if (number_3_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_3;
-        end
-        else if (number_4_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_4;
-        end
-        else if (number_5_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_5;
-        end
-        else if (number_6_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_6;
-        end
-        else if (number_7_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_7;
-        end
-        else if (number_8_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_8;
-        end
-        else if (number_9_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_9;
-        end
-        else if (spacebar_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_SPACEBAR;
-        end
-        else if (del_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_BACKSPACE;
-        end
-        else if (enter_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_ENTER;
-        end
-        else if (clear_hover && left_click && canDisplay) begin
-            canDisplay <= 0;
-            charDisplay <= CHARDISPLAY_CLEAR;
+                else begin
+                    char_pos <= (char_pos < 51) ? char_pos + 1 : 0;
+                end
+            end
         end
     end
 
