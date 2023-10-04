@@ -28,7 +28,7 @@ module sim20kHzclock();
         CLOCK = 0;
     end
     
-    clock_20kHz clk(CLOCK, SLOW_CLOCK);
+    clock_divider clk_20kHz(CLOCK, 20000, SLOW_CLOCK);
     always begin
         #5 CLOCK = ~CLOCK;
     end

@@ -1,0 +1,185 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
+| Date         : Thu Mar 30 14:13:11 2023
+| Host         : LAPTOP-1L13F3PG running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file Top_Student_control_sets_placed.rpt
+| Design       : Top_Student
+| Device       : xc7a35t
+----------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Number of unique control sets                            |   116 |
+| Unused register locations in slices containing registers |   348 |
++----------------------------------------------------------+-------+
+
+
+2. Histogram
+------------
+
++--------+--------------+
+| Fanout | Control Sets |
++--------+--------------+
+|      2 |            5 |
+|      6 |            4 |
+|      8 |            8 |
+|     12 |           56 |
+|     14 |            4 |
+|    16+ |           39 |
++--------+--------------+
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             484 |          104 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |             754 |          109 |
+| Yes          | No                    | No                     |             976 |          203 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |             470 |           73 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-------------------------------------------+------------------------------------------------------+------------------------------------------------------+------------------+----------------+
+|                Clock Signal               |                     Enable Signal                    |                   Set/Reset Signal                   | Slice Load Count | Bel Load Count |
++-------------------------------------------+------------------------------------------------------+------------------------------------------------------+------------------+----------------+
+|  dp_reg_i_2_n_0                           |                                                      |                                                      |                1 |              2 |
+| ~clock_6p25mhz_BUFG                       |                                                      |                                                      |                1 |              2 |
+|  group_task_g/an_display_reg[3]_i_2_n_0   |                                                      | group_task_g/an_display_reg[3]_i_3_n_0               |                1 |              2 |
+|  group_task_g/an_display_reg[2]/G0        |                                                      |                                                      |                1 |              2 |
+|  group_task_g/an_display_reg[0]/G0        |                                                      |                                                      |                1 |              2 |
+|  clk1kHz/CLK                              |                                                      |                                                      |                2 |              6 |
+|  cursor_size_reg[3]_i_2_n_0               |                                                      |                                                      |                2 |              6 |
+|  speaker/JXADC_OBUF[2]                    |                                                      |                                                      |                1 |              6 |
+|  clock_6p25mhz_BUFG                       |                                                      |                                                      |                2 |              6 |
+|  clk1kHz/CLK                              | group_task_g/FSM_onehot_next_an[3]_i_1_n_0           |                                                      |                2 |              8 |
+|  clock_6p25mhz_BUFG                       | mouse/E[0]                                           |                                                      |                2 |              8 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/shift_frame                  | mouse/Inst_Ps2Interface/reset_bit_count              |                1 |              8 |
+|  startup_menu_display/seg_a_filled_reg[0] |                                                      |                                                      |                1 |              8 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | mouse/Inst_Ps2Interface/data_inter0                  |                1 |              8 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | mouse/Inst_Ps2Interface/clk_inter0                   |                1 |              8 |
+|  J_MIC_PIN1_OBUF_BUFG                     | oled/stage_reg[3][0]                                 |                                                      |                2 |              8 |
+|  J_MIC_PIN1_OBUF_BUFG                     | audio_input_a/seg_reg[5]_0                           | my_Audio_Input/seg_reg[0]                            |                2 |              8 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/curr_test_char                      |                                                      |                1 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_10[5]_i_1_n_0   |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/prev_test_char                      |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_0[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_12[5]_i_1_n_0   |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_1[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_11[5]_i_1_n_0   |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_2[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_4[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_5[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_3[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_6[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_8[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_9[5]_i_1_n_0    |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display0_7[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_10[5]_i_1_n_0   |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_0[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_11[5]_i_1_n_0   |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_12[5]_i_1_n_0   |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_3[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_2[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_1[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_7[5]_i_1_n_0    |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_5[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_4[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_6[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_0[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_8[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_11[5]_i_1_n_0   |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display1_9[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_10[5]_i_1_n_0   |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_1[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_12[5]_i_1_n_0   |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_2[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_3[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_7[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_6[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_5[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_8[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_4[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_10[5]_i_1_n_0   |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display2_9[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_0[5]_i_1_n_0    |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_11[5]_i_1_n_0   |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_12[5]_i_1_n_0   |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_2[5]_i_1_n_0    |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_1[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_6[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_5[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_7[5]_i_1_n_0    |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_3[5]_i_1_n_0    |                                                      |                4 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_4[5]_i_1_n_0    |                                                      |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_8[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/screen_pos_display3_9[5]_i_1_n_0    |                                                      |                3 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/test_char_pos[5]_i_2_n_0            | keyboard_typer_k/test_char_pos[5]_i_1_n_0            |                2 |             12 |
+|  J_MIC_PIN1_OBUF_BUFG                     | mouse/charDisplay_reg[0]_6[0]                        |                                                      |                3 |             12 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/right_down_reg               |                                                      |                2 |             14 |
+|  group_task_g/seg_reg[6]_i_2_n_0          |                                                      |                                                      |                4 |             14 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | group_task_g/valid1                                  |                3 |             14 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/delay_63clk_count[6]_i_2_n_0 | mouse/Inst_Ps2Interface/delay_63clk_count[6]_i_1_n_0 |                2 |             14 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/load_rx_data                 |                                                      |                2 |             16 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/y_inc_reg[0]                 |                                                      |                3 |             16 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/x_inc_reg[0]                 |                                                      |                2 |             16 |
+|  basys3_clock_IBUF_BUFG                   | mouse/write_data                                     |                                                      |                3 |             16 |
+|  J_MIC_PIN1_OBUF_BUFG                     | keyboard_typer_k/char_pos[5]_i_1_n_0                 |                                                      |                5 |             18 |
+|  speaker/JXADC_OBUF[2]                    | speaker/FSM_onehot_current_state_reg_n_0_[1]         | speaker/FSM_onehot_current_state_reg_n_0_[0]         |                2 |             18 |
+|  clk1kHz/CLK                              | group_task_g/counter[9]_i_2_n_0                      | group_task_g/canReset                                |                3 |             20 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/frame[9]_i_1_n_0             |                                                      |                2 |             20 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/delay_20us_count[10]_i_2_n_0 | mouse/Inst_Ps2Interface/delay_20us_count[10]_i_1_n_0 |                4 |             22 |
+| ~my_Audio_Input/J_MIC_PIN4_OBUF           |                                                      |                                                      |                3 |             24 |
+|  speaker/JXADC_OBUF[2]                    | speaker/temp2                                        |                                                      |                3 |             24 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | J_MIC_PIN1_OBUF_BUFG                                 |                3 |             24 |
+|  basys3_clock_IBUF_BUFG                   | mouse/x_new_reg_n_0                                  |                                                      |                3 |             24 |
+|  basys3_clock_IBUF_BUFG                   | mouse/y_new_reg_n_0                                  |                                                      |                5 |             24 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | group_task_g/seg_a_filled0                           |                8 |             26 |
+|  basys3_clock_IBUF_BUFG                   | mouse/Inst_Ps2Interface/delay_100us_count[0]_i_2_n_0 | mouse/Inst_Ps2Interface/clear                        |                4 |             28 |
+|  oled/E[0]                                |                                                      |                                                      |                7 |             32 |
+|  basys3_clock_IBUF_BUFG                   | left_click_debouncer/counter_up[16]_i_2__0_n_0       | left_click_debouncer/db_signal0                      |                7 |             34 |
+|  basys3_clock_IBUF_BUFG                   | btnC_debouncer/counter_up[16]_i_2_n_0                | btnC_debouncer/db_signal0                            |                7 |             34 |
+|  basys3_clock_IBUF_BUFG                   | right_click_debouncer/counter_up[16]_i_2__1_n_0      | right_click_debouncer/db_signal0                     |                8 |             34 |
+| ~clock_6p25mhz_BUFG                       |                                                      | oled/frame_counter[16]_i_1_n_0                       |                5 |             34 |
+| ~clock_6p25mhz_BUFG                       | oled/delay[0]_i_1_n_0                                |                                                      |                5 |             40 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | mouse/reset_timeout_cnt_reg_n_0                      |                6 |             48 |
+|  basys3_clock_IBUF_BUFG                   | audio_output_b/counter[26]_i_2_n_0                   | audio_output_b/counter[26]_i_1_n_0                   |                7 |             52 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | mouse/reset_periodic_check_cnt__0                    |                7 |             52 |
+|  basys3_clock_IBUF_BUFG                   | left_click_debouncer/counter_down[31]_i_2__0_n_0     | left_click_debouncer/p_1_in[6]                       |                8 |             62 |
+|  basys3_clock_IBUF_BUFG                   | right_click_debouncer/counter_down[31]_i_2__1_n_0    | right_click_debouncer/p_1_in[6]                      |                8 |             62 |
+|  basys3_clock_IBUF_BUFG                   | btnC_debouncer/counter_down[31]_i_2_n_0              | btnC_debouncer/p_1_in[6]                             |                8 |             62 |
+|  J_MIC_PIN1_OBUF_BUFG                     |                                                      | audio_input_a/seg_reg[5]_0                           |                9 |             64 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | clk1Hz/clear                                         |                8 |             64 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | clk190Hz/clear                                       |                8 |             64 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | clk1kHz/clear                                        |                8 |             64 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | clk20kHz/clear                                       |                8 |             64 |
+| ~clock_6p25mhz_BUFG                       | oled/state                                           |                                                      |                9 |             64 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | clk6p25m/clear                                       |                8 |             64 |
+|  basys3_clock_IBUF_BUFG                   |                                                      | clk380Hz/clear                                       |                8 |             64 |
+|  J_MIC_PIN1_OBUF_BUFG                     |                                                      |                                                      |               15 |             80 |
+| ~clock_6p25mhz_BUFG                       |                                                      | oled/spi_word[39]_i_1_n_0                            |               17 |             90 |
+|  basys3_clock_IBUF_BUFG                   |                                                      |                                                      |               63 |            294 |
++-------------------------------------------+------------------------------------------------------+------------------------------------------------------+------------------+----------------+
+
+

@@ -3,10 +3,10 @@
 <!--                                                         -->
 <!-- Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="38" Path="C:/Users/jared/Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.xpr">
+<Project Version="7" Minor="38" Path="C:/Users/jared/Downloads/grpproj-w-animated-menu.xpr/MouseAudioDisplay/.Xil/Vivado-5344-LAPTOP-1L13F3PG/PrjAr/_X_/MouseAudioDisplay.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="fad9f2eea5774d6091130b4bf65ba538"/>
+    <Option Name="Id" Val="f6dfaa6b7f1f4f759a4c804e095885ec"/>
     <Option Name="Part" Val="xc7a35tcpg236-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -21,7 +21,6 @@
     <Option Name="ActiveSimSet" Val="sim_1"/>
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
     <Option Name="ProjectType" Val="Default"/>
-    <Option Name="IPOutputRepo" Val="$PCACHEDIR/ip"/>
     <Option Name="IPCachePermission" Val="read"/>
     <Option Name="IPCachePermission" Val="write"/>
     <Option Name="EnableCoreContainer" Val="FALSE"/>
@@ -31,7 +30,7 @@
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSAVendor" Val="xilinx"/>
     <Option Name="DSANumComputeUnits" Val="60"/>
-    <Option Name="WTXSimLaunchSim" Val="3"/>
+    <Option Name="WTXSimLaunchSim" Val="19"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -59,29 +58,352 @@
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sources_1/new/Top_Student.v">
+      <File Path="$PSRCDIR/sources_1/imports/Desktop/Audio_Input.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../../SoundDisplay.srcs/sources_1/new/Top_Student.v"/>
-          <Attr Name="ImportTime" Val="1570395690"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Audio_Input.v"/>
+          <Attr Name="ImportTime" Val="1570395502"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Desktop/Ps2Interface.vhd">
+      <File Path="$PSRCDIR/sources_1/imports/Desktop/Oled_Display.v">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../Ps2Interface.vhd"/>
-          <Attr Name="ImportTime" Val="1667157208"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Oled_Display.v"/>
+          <Attr Name="ImportTime" Val="1570395512"/>
           <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Desktop/Oled_Display.v">
+      <File Path="$PSRCDIR/sources_1/piano_stuff/audio_output_improved.v">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../Oled_Display.v"/>
-          <Attr Name="ImportTime" Val="1570395512"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/piano_stuff/audio_output_improved.v"/>
+          <Attr Name="ImportTime" Val="1680238933"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/bimpy.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/bimpy.v"/>
+          <Attr Name="ImportTime" Val="1679824109"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/bitreverse.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/bitreverse.v"/>
+          <Attr Name="ImportTime" Val="1679824113"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/metronome_stuff/bpm_controller.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/metronome_stuff/bpm_controller.v"/>
+          <Attr Name="ImportTime" Val="1680138472"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/metronome_stuff/bpm_to_clock.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/metronome_stuff/bpm_to_clock.v"/>
+          <Attr Name="ImportTime" Val="1680138426"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/butterfly.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/butterfly.v"/>
+          <Attr Name="ImportTime" Val="1679824115"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/clock_divider.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/clock_divider.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/convround.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/convround.v"/>
+          <Attr Name="ImportTime" Val="1679824119"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/debouncer.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/debouncer.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/freq_dectector_stuff/disp_freq.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/freq_dectector_stuff/disp_freq.v"/>
+          <Attr Name="ImportTime" Val="1679580248"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/fading_colors.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/fading_colors.v"/>
+          <Attr Name="ImportTime" Val="1679984241"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/fft_bars.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/fft_bars.v"/>
+          <Attr Name="ImportTime" Val="1680234637"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/fft_clk_divider.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/fft_clk_divider.v"/>
+          <Attr Name="ImportTime" Val="1680208718"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/fftmain.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/fftmain.v"/>
+          <Attr Name="ImportTime" Val="1679824122"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/fftstage.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/fftstage.v"/>
+          <Attr Name="ImportTime" Val="1679824128"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/freq_dectector_stuff/freq_callibration.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/freq_dectector_stuff/freq_callibration.v"/>
+          <Attr Name="ImportTime" Val="1679634596"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/freq_dectector_stuff/freq_detector.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/freq_dectector_stuff/freq_detector.v"/>
+          <Attr Name="ImportTime" Val="1679634230"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/group_g.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/group_g.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/hwbfly.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/hwbfly.v"/>
+          <Attr Name="ImportTime" Val="1679824131"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/individual_a.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/individual_a.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/individual_b.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/individual_b.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/individual_c.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/individual_c.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/individual_d.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/individual_d.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/keyboard_typer.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/keyboard_typer.v"/>
+          <Attr Name="ImportTime" Val="1680032837"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/laststage.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/laststage.v"/>
+          <Attr Name="ImportTime" Val="1679824133"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/longbimpy.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/longbimpy.v"/>
+          <Attr Name="ImportTime" Val="1679824135"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/metronome_stuff/metronome.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/metronome_stuff/metronome.v"/>
+          <Attr Name="ImportTime" Val="1680158155"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/metronome_stuff/metronome_stage_selector.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/metronome_stuff/metronome_stage_selector.v"/>
+          <Attr Name="ImportTime" Val="1680158155"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/metronome_stuff/num_to_seg.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/metronome_stuff/num_to_seg.v"/>
+          <Attr Name="ImportTime" Val="1680158154"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/oled_scaling.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/oled_scaling.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/piano_stuff/piano_display.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/piano_stuff/piano_display.v"/>
+          <Attr Name="ImportTime" Val="1679991721"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/play_range.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/play_range.v"/>
+          <Attr Name="ImportTime" Val="1680208726"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/fft-core/qtrstage.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/fft-core/qtrstage.v"/>
+          <Attr Name="ImportTime" Val="1679824139"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/rng.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/rng.v"/>
+          <Attr Name="ImportTime" Val="1679970165"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/freq_dectector_stuff/segment_disp.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/freq_dectector_stuff/segment_disp.v"/>
+          <Attr Name="ImportTime" Val="1679486872"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/start_menu.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/new/start_menu.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/piano_stuff/wavegen.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../GrpProjMergedWithSound/MouseAudioDisplay/MouseAudioDisplay.srcs/sources_1/piano_stuff/wavegen.v"/>
+          <Attr Name="ImportTime" Val="1680203891"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -89,8 +411,7 @@
       </File>
       <File Path="$PSRCDIR/sources_1/imports/Desktop/Audio_Output.vhd">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../Audio_Output.vhd"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Audio_Output.vhd"/>
           <Attr Name="ImportTime" Val="1677251482"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -98,32 +419,36 @@
       </File>
       <File Path="$PSRCDIR/sources_1/imports/Desktop/Mouse_Control.vhd">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../Mouse_Control.vhd"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Mouse_Control.vhd"/>
           <Attr Name="ImportTime" Val="1676185106"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Desktop/Audio_Input.v">
+      <File Path="$PSRCDIR/sources_1/imports/Desktop/Ps2Interface.vhd">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../Audio_Input.v"/>
-          <Attr Name="ImportTime" Val="1570395502"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Ps2Interface.vhd"/>
+          <Attr Name="ImportTime" Val="1667157208"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/new/Top_Student.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/SoundDisplay.srcs/sources_1/new/Top_Student.v"/>
+          <Attr Name="ImportTime" Val="1570395690"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/MouseAudioDisplay/archive_project_summary.txt">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../archive_project_summary.txt"/>
+          <Attr Name="ImportTime" Val="1680267330"/>
         </FileInfo>
       </File>
       <File Path="$PPRDIR/archive_project_summary.txt"/>
-      <File Path="$PSRCDIR/sources_1/new/clock_20kHz.v">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
         <Option Name="TopModule" Val="Top_Student"/>
@@ -133,7 +458,7 @@
       <Filter Type="Constrs"/>
       <File Path="$PSRCDIR/constrs_1/new/Basys3_Master.xdc">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../../../SoundDisplay.srcs/constrs_1/new/Basys3_Master.xdc"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/SoundDisplay.srcs/constrs_1/new/Basys3_Master.xdc"/>
           <Attr Name="ImportTime" Val="1570394606"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -147,6 +472,8 @@
       <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sim_1/new/sim20kHzclock.v">
         <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../Desktop/EE2026_proj/Project/MouseAudioDisplay.xpr/MouseAudioDisplay/MouseAudioDisplay.srcs/sim_1/new/sim20kHzclock.v"/>
+          <Attr Name="ImportTime" Val="1679736775"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -181,15 +508,16 @@
     </Simulator>
   </Simulators>
   <Runs Version="1" Minor="10">
-    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" WriteIncrSynthDcp="false" State="current" IncludeInArchive="true">
+    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" WriteIncrSynthDcp="false" State="current" Dir="$PRUNDIR/synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018"/>
         <Step Id="synth_design"/>
       </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
       <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2018"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" GenFullBitstream="true">
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7a35tcpg236-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." WriteIncrSynthDcp="false" State="current" Dir="$PRUNDIR/impl_1" SynthRun="synth_1" IncludeInArchive="true" GenFullBitstream="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2018"/>
         <Step Id="init_design"/>
@@ -202,6 +530,7 @@
         <Step Id="post_route_phys_opt_design"/>
         <Step Id="write_bitstream"/>
       </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
       <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2018"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>

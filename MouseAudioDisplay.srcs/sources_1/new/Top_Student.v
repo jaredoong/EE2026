@@ -12,9 +12,565 @@
 
 
 module Top_Student (
-    // Delete this comment and include Basys3 inputs and outputs here
+    input basys3_clock,
+    input J_MIC_PIN3,
+    input btnC, btnU, btnD, btnL, btnR,
+    input [15:0] sw,
+    output J_MIC_PIN1, J_MIC_PIN4,
+    output [7:0] JB,
+    output [3:0] JXADC,
+    output reg [15:0] led = 0,
+    output reg dp = 1,
+    output reg [3:0] an = 4'b1111,
+    output reg [6:0] seg = 7'b1111111,
+    inout PS2Clk, PS2Data
+); 
+
+    localparam RED = 16'b11111_000000_00000;
+    localparam GREEN = 16'b00000_111111_00000;
+    localparam BLUE = 16'b00000_000000_11111;
+    localparam WHITE = 16'b11111_111111_11111;
+    localparam BLACK = 16'b00000_000000_00000;
+
+    localparam task_A = 4'b0000;
+    localparam task_B = 4'b0001;
+    localparam task_C = 4'b0010;
+    localparam task_D = 4'b0011;
+    localparam task_G = 4'b0100;
+    localparam task_F = 4'b0101;
+    localparam task_K = 4'b0110;
+    localparam task_M = 4'b0111;
+    localparam task_S = 4'b1000;
+    localparam task_T = 4'b1001;
+    localparam menu = 4'b1111;
+
+    // Clk signals
+    wire clk_1Hz;
+    wire clk_5Hz;
+    wire clk_16Hz;
+    wire clk_1kHz;
+    wire clk_20kHz;
+    wire clk_190Hz;
+    wire clk_380Hz;
+    wire clock_6p25mhz;
+    wire clock_50mhz;
+
+    // Btn debounced
+    wire btnC_debounce;
+    wire btnU_debounce;
+    wire btnD_debounce;
+    wire btnL_debounce;
+    wire btnR_debounce;
+    wire left_click_debounce;
+    wire right_click_debounce;
+
+    // Individual A - Audio input
+    wire [11:0] task_A_led;
+    wire [3:0] task_A_an;
+    wire [6:0] task_A_seg;
+    
+    // Individual B - Audio output
+    wire [11:0] task_B_audio_out;
+
+    // Individual C - Mouse control
+    wire task_C_left_click;
+    wire task_C_right_click;
+    wire [3:0] task_C_cursor_size;
+    wire [15:0] task_C_pixel_data;
+    
+    // Individual D - OLED display
+    wire [15:0] task_D_pixel_data;
+
+    // Group task
+    wire [15:0] task_G_pixel_data;
+    wire [11:0] task_G_led;
+    wire [3:0] task_G_an;
+    wire [6:0] task_G_seg;
+    wire [3:0] valid_number;
+    wire task_G_left_click;
+    wire task_G_right_click;
+    wire [3:0] task_G_cursor_size;
+    wire [11:0] task_G_audio_out;
+    wire task_G_dp;
+
+    // OLED keyboard task
+    wire task_K_left_click;
+    wire task_K_right_click;
+    wire [3:0] task_K_cursor_size;
+    wire [15:0] task_K_pixel_data;
+    wire [15:0] lights_pixel_data;
+
+    // Startup menu display
+    wire [15:0] startup_menu_pixel_data;
+    wire [3:0] menu_cursor_size;
+    wire menu_left_click;
+    wire menu_right_click;
+
+    // Common Mouse control
+    wire[11:0] mouse_x, mouse_y;
+    wire[3:0] mouse_z;
+    reg [3:0] cursor_size;
+    wire mouse_event, middle_click, left_click, right_click;
+
+    // Common OLED display
+    reg [15:0] pixel_data;
+    wire [12:0] pixel_index;
+    wire[6:0] pixel_x, pixel_y, cursor_x, cursor_y, diff_x, diff_y;
+    wire frame_begin, sending_pixels, sample_pixel;
+    reg reset_signal;
+
+    // Common Audio input
+    wire [11:0] curr_Audio;
+
+    // Common audio output
+    reg [11:0] audio_out;
+
+    // Others
+    wire [3:0] stage;
+    reg [3:0] curr_task = 0;
+    wire [5:0] random_number;
+
+    clock_divider clk1Hz(basys3_clock,1, clk_1Hz);
+    clock_divider clk10Hz(basys3_clock,5, clk_5Hz);
+    clock_divider clk16Hz(basys3_clock,16, clk_16Hz);
+    clock_divider clk20kHz(basys3_clock,20_000, clk_20kHz);
+    clock_divider clk190Hz(basys3_clock,190, clk_190Hz);
+    clock_divider clk380Hz(basys3_clock,380, clk_380Hz);
+    clock_divider clk1kHz(basys3_clock,1_000, clk_1kHz);
+    clock_divider clk6p25m(basys3_clock,6_250_000, clock_6p25mhz);
+    clock_divider clk50m(basys3_clock,50_000_000, clock_50mhz);
+
+    // Debouncer for btns
+    debouncer btnC_debouncer(basys3_clock, btnC, btnC_debounce);
+    debouncer btnU_debouncer(basys3_clock, btnU, btnU_debounce);
+    debouncer btnD_debouncer(basys3_clock, btnD, btnD_debounce);
+    debouncer btnL_debouncer(basys3_clock, btnL, btnL_debounce);
+    debouncer btnR_debouncer(basys3_clock, btnR, btnR_debounce);
+    debouncer left_click_debouncer(basys3_clock, left_click, left_click_debounce);
+    debouncer right_click_debouncer(basys3_clock, right_click, right_click_debounce);
+
+    // For controlling mouse inputs
+    assign task_G_left_click = (curr_task == task_G) ? left_click_debounce : 0;
+    assign task_G_right_click = (curr_task == task_G) ? right_click_debounce : 0;
+    assign task_K_left_click = (curr_task == task_K) ? left_click_debounce : 0;
+    assign task_K_right_click = (curr_task == task_K) ? right_click_debounce : 0;
+    assign menu_left_click = (curr_task == menu) ? left_click_debounce : 0;
+    assign menu_right_click = (curr_task == menu) ? right_click_debounce : 0;
+
+    // Individual A - Audio input
+    individual_a audio_input_a(
+        .clk_20kHz(clk_20kHz),
+        .sw0(sw[5]),
+        .curr_Audio(curr_Audio),
+        .led(task_A_led),
+        .an(task_A_an),
+        .seg(task_A_seg)
     );
 
-    // Delete this comment and write your codes and instantiations here
+    // Individual B - Audio output
+    individual_b audio_output_b(
+        .basys3_clock(basys3_clock),
+        .clk_190Hz(clk_190Hz),
+        .clk_380Hz(clk_380Hz),
+        .btnC_debounce(btnC_debounce),
+        .sw(sw[0]),
+        .audio_out(task_B_audio_out)
+    );
 
+    // Individual C - Mouse control
+    individual_c mouse_control_c(
+        .clock_6p25mhz(clock_6p25mhz),
+        .middle_click(middle_click),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_size(task_C_cursor_size),
+        .pixel_data(task_C_pixel_data)
+    );
+
+    // Individual D - OLED display
+    individual_d oled_display_d(
+        .sw(sw), 
+        .pixel_index(pixel_index),
+        .pixel_data(task_D_pixel_data)
+    );
+
+    // Group task
+    group_g group_task_g(
+        .basys3_clock(basys3_clock),
+        .clk_1kHz(clk_1kHz),
+        .clk_190Hz(clk_190Hz),
+        .sw(sw),
+        .pixel_index(pixel_index),
+        .left_click(task_G_left_click),
+        .right_click(task_G_right_click),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .task_A_an(task_A_an[0]),
+        .task_A_seg(task_A_seg),
+        .task_A_led(task_A_led),
+        .cursor_size(task_G_cursor_size),
+        .pixel_data(task_G_pixel_data),
+        .led(task_G_led),
+        .an(task_G_an),
+        .seg(task_G_seg),
+        .dp(task_G_dp),
+        .audio_out(task_G_audio_out),
+        .valid_number(valid_number)
+    );
+
+    wire [1:0] debug_led;
+
+    // Keyboard task
+    keyboard_typer keyboard_typer_k(
+        .clock(clk_20kHz),
+        .clock_1Hz(clk_1Hz),
+        .btnC_debounce(btnC_debounce),
+        .debug_led(debug_led),
+        .sw(sw),
+        .pixel_index(pixel_index),
+        .left_click(task_K_left_click),
+        .right_click(task_K_right_click),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .rand_num(random_number),
+        .rgb_lights(lights_pixel_data),
+        .cursor_size(task_K_cursor_size),
+        .pixel_data(task_K_pixel_data)
+    );
+
+    // Fading lights
+    fading_colors rgb_lights(
+        .clk(clock_6p25mhz),
+        .pixel_data(lights_pixel_data)
+    );
+ 
+    // Startup menu display
+    start_menu startup_menu_display(
+        .clock(clk_20kHz), .animation_clock(clk_16Hz),
+        .sw(sw),
+        .pixel_index(pixel_index),
+        .left_click(menu_left_click),
+        .btnR(btnR_debounce), .btnL(btnL_debounce),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_size(menu_cursor_size),
+        .pixel_data(startup_menu_pixel_data),
+        .stage(stage)
+    );
+
+    // Common OLED display    
+    Oled_Display oled(
+        .clk(clock_6p25mhz),
+        .reset(0),
+        .frame_begin(frame_begin),
+        .sending_pixels(sending_pixels),
+        .sample_pixel(sample_pixel),
+        .pixel_index(pixel_index),
+        .pixel_data(pixel_data),
+        .cs(JB[0]),
+        .sdin(JB[1]),
+        .sclk(JB[3]),
+        .d_cn(JB[4]),
+        .resn(JB[5]),
+        .vccen(JB[6]),
+        .pmoden(JB[7])
+    );
+
+    // Common Mouse control
+    MouseCtl mouse(
+        .clk(basys3_clock),
+        .rst(0),
+        .xpos(mouse_x),
+        .ypos(mouse_y),
+        .zpos(mouse_z),
+        .left(left_click),
+        .middle(middle_click),
+        .right(right_click),
+        .new_event(mouse_event),
+        .value(0),
+        .setx(0),
+        .sety(0),
+        .setmax_x(0),
+        .setmax_y(0),
+        .ps2_clk(PS2Clk),
+        .ps2_data(PS2Data)
+    );
+
+    // Common mouse to OLED scaling
+    oled_scaling cursor_control(
+        .pixel_index(pixel_index), 
+        .mouse_xpos(mouse_x), .mouse_ypos(mouse_y),
+        .pixel_x(pixel_x), 
+        .pixel_y(pixel_y), 
+        .cursor_x(cursor_x), 
+        .cursor_y(cursor_y), 
+        .cursor_size(cursor_size),
+        .diff_x(diff_x), 
+        .diff_y(diff_y)
+    );
+
+    // Common audio input
+    Audio_Input my_Audio_Input(
+        .CLK(basys3_clock),        // 100MHz clock
+        .cs(clk_20kHz),            // sampling clock, 20kHz
+        .MISO(J_MIC_PIN3),         // J_MIC3_Pin3, serial mic input
+        .clk_samp(J_MIC_PIN1),     // J_MIC3_Pin1
+        .sclk(J_MIC_PIN4),         // J_MIC3_Pin4, MIC3 serial clock
+        .sample(curr_Audio)
+    );
+
+    // Common audio output
+    Audio_Output speaker(
+        .CLK(clock_50mhz), 
+        .START(clk_20kHz), 
+        .DATA1(audio_out), 
+        .RST(1'b0), 
+        .nSYNC(JXADC[0]), 
+        .D1(JXADC[1]),
+        .D2(JXADC[2]), 
+        .CLK_OUT(JXADC[3]), 
+        .DATA2()
+    );
+
+    // Random number generator for keyboard monkeytype
+    rng rng36(
+        .clk(clk_5Hz),
+        .rand_num(random_number)
+    );
+
+    // ***** Frequency Detector Start *****
+
+    wire [2:0] task_F_freq_range;
+    wire [31:0] task_F_freq;
+    wire [15:0] task_F_led;
+    wire [3:0] task_F_an;
+    wire [6:0] task_F_seg;
+
+    freq_detector freq_detect(
+        .CLOCK_20KHZ(clk_20kHz),
+        .curr_audio(curr_Audio),
+        .led(task_F_led),
+        .freq(task_F_freq),
+        .M(4000),
+        .freq_range(task_F_freq_range)
+    );
+    
+    disp_freq display(
+        .CLOCK(basys3_clock),
+        .sound_freq(task_F_freq),
+        .disp_mode(sw[10]),
+        .an(task_F_an),
+        .seg(task_F_seg)
+    );
+    
+    wire task_F_freq_abv;
+    freq_callibration callibration(
+        .CLOCK_100MHZ(basys3_clock),
+        .CLOCK_20KHZ(clk_20kHz),
+        .callibration_mode(sw[1]),
+        .MIC_in(curr_Audio),
+        .freq_abv(task_F_freq_abv)
+    );
+
+    // ***** Metronome Start *****
+    // metronome
+    wire [15:0] metronome_pixel_data;
+    wire [11:0] metronome_audio_out;
+    wire [3:0] metronome_an;
+    wire [6:0] metronome_seg;
+    wire [3:0] metronome_cursor_size;
+    
+    metronome start_metronome(.basys3_clock(basys3_clock),
+        .btnU(btnU_debounce), .btnD(btnD_debounce), .left_click(left_click_debounce),
+        .pixel_x(pixel_x), .pixel_y(pixel_y), .cursor_x(cursor_x), .cursor_y(cursor_y),
+        .sw(sw), .pixel_data(metronome_pixel_data), .audio_out(metronome_audio_out),
+        .an(metronome_an), .seg(metronome_seg), .cursor_size(metronome_cursor_size));
+
+    // ***** Metronome End *****
+
+    // ***** Piano start *****
+    wire [15:0] piano_pixel_data;
+    wire [6:0] piano_seg;
+    wire [3:0] piano_an;
+    wire [11:0] piano_audio_out;
+    wire [3:0] piano_cursor_size;
+
+    audio_output_improved piano(
+        .CLOCK(basys3_clock),
+        .clk_20kHz(clk_20kHz),
+        .seg(piano_seg),
+        .an(piano_an),
+        .btnL_debounce(btnL_debounce),
+        .btnR_debounce(btnR_debounce),
+        .btnU_debounce(btnU_debounce),
+        .btnD_debounce(btnD_debounce),
+        .audio_out(piano_audio_out),
+        .pixel_index(pixel_index),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .left_click(left_click_debounce),
+        .pixel_data(piano_pixel_data),
+        .cursor_size(piano_cursor_size)
+    );
+    // ***** Piano end *****
+
+    // ***** FFT start *****
+    
+    localparam fft_cursor_size = 2;
+    wire [15:0] fft_pixel_data;
+    wire [11:0] fft_audio_out;
+    fft_bars fftbars(
+        .basys3_clock(basys3_clock),
+        .sampling_rate(clk_20kHz),
+        .curr_Audio(curr_Audio),
+        .sw(sw),
+        .left_click(left_click),
+        .right_click(right_click),
+        .cursor_x(cursor_x),
+        .cursor_y(cursor_y),
+        .diff_x(diff_x),
+        .diff_y(diff_y),
+        .cursor_size(fft_cursor_size),
+        .pixel_index(pixel_index),
+        .audio_out(fft_audio_out),
+        .pixel_data(fft_pixel_data)
+    );
+
+    // ***** FFT end *****
+
+
+    always @ (*) begin
+        case (stage)
+            4'b1111 : curr_task = menu;
+            4'b0001 : curr_task = task_A;
+            4'b0010 : curr_task = task_B;
+            4'b0011 : curr_task = task_C;
+            4'b0100 : curr_task = task_D;
+            4'b0101 : curr_task = task_G;
+            4'b0110 : curr_task = task_K;
+            4'b0111 : curr_task = task_F;
+            4'b1000 : curr_task = task_M;
+            4'b1001 : curr_task = task_S;
+            4'b1010 : curr_task = task_T;
+        endcase
+
+        // Control OLED display based on current task
+        case (curr_task)
+            menu : pixel_data = startup_menu_pixel_data;
+            task_C : pixel_data = task_C_pixel_data;
+            task_D : pixel_data = task_D_pixel_data;
+            task_G : pixel_data = task_G_pixel_data;
+            task_K : pixel_data = task_K_pixel_data;
+            task_M : pixel_data = metronome_pixel_data;
+            task_T : pixel_data = fft_pixel_data;
+            task_S : pixel_data = piano_pixel_data;
+        default : pixel_data = BLACK;
+        endcase
+
+        // Control LEDs based on current task
+        case (curr_task)
+            menu : led[15:0] = 16'b0000000000000000;
+            task_A: begin
+                        led[11:0] = task_A_led;
+                        led[15:12] = 4'b0000;
+                    end
+            task_C : begin
+                        led[15] = left_click;
+                        led[13] = right_click;
+                        led[14] = 0;
+                        led[12:0] = 13'b0000000000000;
+                    end
+            task_G : begin
+                        led[15] = (valid_number == 4'b0000) ? 0 : (sw[15]) ? 1 : 0;
+                        led[11:0] = task_A_led;
+                        led[14:12] = 3'b000;
+
+                    end
+            task_K : begin
+                        led[15:2] = 15'b000000000000000;
+//                        led[1:0] = debug_led;
+                    end
+
+            task_F : begin
+                        led[0] = task_F_freq_abv;
+                        led[1] = sw[1];
+                        led[15:2] = task_F_led;
+                    end
+
+        default : led[15:0] = 16'b0000000000000000;
+        endcase
+
+        // Control 7-segment display based on current task
+        case (curr_task)
+            menu : begin
+                an = 4'b1111;
+                seg = 7'b1111111;
+                dp = 1'b1;
+            end
+
+            task_A : begin
+                an = task_A_an;
+                seg = task_A_seg;
+            end
+
+            task_G : begin
+                an = task_G_an;
+                seg = task_G_seg;
+                dp = task_G_dp;
+            end
+
+            task_M : begin
+                an = metronome_an;
+                seg = metronome_seg;
+                dp = 1'b1;
+            end
+
+            task_S : begin
+                an = piano_an;
+                seg = piano_seg;
+                dp = 1'b1;
+            end
+
+            task_F : begin
+                an = task_F_an;
+                seg = task_F_seg;
+                dp = 1'b1;
+            end
+
+        default : begin
+            an = 4'b1111;
+            seg = 7'b1111111;
+            dp = 1'b1;
+            end
+        endcase
+
+        // Control audio output based on current task
+        case (curr_task)
+            task_B : audio_out = task_B_audio_out;
+            task_G : audio_out = task_G_audio_out;
+            task_M : audio_out = metronome_audio_out;
+            task_T : audio_out = fft_audio_out;
+            task_S : audio_out = piano_audio_out;
+        default : audio_out = 0;
+        endcase
+
+        // Control cursor size based on current task
+        case (curr_task)
+            menu : cursor_size = menu_cursor_size;
+            task_C : cursor_size = task_C_cursor_size;
+            task_G : cursor_size = task_G_cursor_size;
+            task_K : cursor_size = task_K_cursor_size;
+            task_M : cursor_size = metronome_cursor_size;
+            task_T : cursor_size = fft_cursor_size;
+            task_S : cursor_size = piano_cursor_size;
+        endcase
+    end
 endmodule
